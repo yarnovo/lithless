@@ -21,7 +21,8 @@
     "clean": "rm -rf dist",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "lint": "eslint . --fix",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "format": "prettier --write \"src/**/*.{js,ts,tsx,jsx,json,css,md}\"",
     "prepare": "husky"
   },
