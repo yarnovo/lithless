@@ -13,10 +13,25 @@
     "build": "tsc && vite build",
     "dev": "vite",
     "preview": "vite preview",
-    "check": "tsc --noEmit",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "check": "npm run lint && npm run typecheck && npm test",
     "clean": "rm -rf dist",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "lint": "eslint . --fix",
+    "format": "prettier --write \"src/**/*.{js,ts,tsx,jsx,json,css,md}\"",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix"
+    ],
+    "*.{json,css,md}": [
+      "prettier --write"
+    ]
   },
   "keywords": [
     "web-components",
@@ -37,8 +52,13 @@
     "@vitest/browser": "^3.2.4",
     "@vitest/coverage-v8": "^3.2.4",
     "eslint": "^9.31.0",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-prettier": "^5.5.1",
     "globals": "^16.3.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.1.2",
     "playwright": "^1.54.1",
+    "prettier": "^3.6.2",
     "storybook": "^9.0.16",
     "typescript": "^5.0.0",
     "typescript-eslint": "^8.37.0",

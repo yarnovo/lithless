@@ -45,11 +45,7 @@ export class LitButton extends LitElement {
 
   render() {
     return html`
-      <button
-        class=${this.variant}
-        ?disabled=${this.disabled}
-        @click=${this._handleClick}
-      >
+      <button class=${this.variant} ?disabled=${this.disabled} @click=${this._handleClick}>
         <slot></slot>
       </button>
     `;
@@ -62,10 +58,12 @@ export class LitButton extends LitElement {
       return;
     }
 
-    this.dispatchEvent(new CustomEvent('lit-click', {
-      detail: { originalEvent: e },
-      bubbles: true,
-      composed: true
-    }));
+    this.dispatchEvent(
+      new CustomEvent('lit-click', {
+        detail: { originalEvent: e },
+        bubbles: true,
+        composed: true,
+      })
+    );
   }
 }
