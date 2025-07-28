@@ -43,6 +43,31 @@
             margin-right: 10px;
         }
         
+        /* 防止 FOUC - 隐藏未定义的自定义元素 */
+        lith-button:not(:defined),
+        lith-checkbox:not(:defined) {
+            visibility: hidden;
+            display: inline-block;
+            /* 保持布局空间，防止页面跳动 */
+            height: 1.5em;
+            opacity: 0;
+        }
+        
+        /* 组件定义后的淡入效果 */
+        lith-button:defined,
+        lith-checkbox:defined {
+            animation: fadeIn 0.2s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        
         /* Checkbox styling */
         lith-checkbox::part(control) {
             border: 2px solid #ccc;
