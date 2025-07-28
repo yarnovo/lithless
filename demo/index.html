@@ -135,7 +135,22 @@
         </div>
     </div>
 
-    <script type="module" src="../src/index.ts"></script>
+    <!-- Import map 解决 lit 模块依赖 -->
+    <script type="importmap">
+    {
+        "imports": {
+            "lit": "https://cdn.jsdelivr.net/npm/lit@3/index.js",
+            "lit/": "https://cdn.jsdelivr.net/npm/lit@3/",
+            "@lit/reactive-element": "https://cdn.jsdelivr.net/npm/@lit/reactive-element@2/reactive-element.js",
+            "@lit/reactive-element/": "https://cdn.jsdelivr.net/npm/@lit/reactive-element@2/",
+            "lit-element/": "https://cdn.jsdelivr.net/npm/lit-element@4/",
+            "lit-html": "https://cdn.jsdelivr.net/npm/lit-html@3/lit-html.js",
+            "lit-html/": "https://cdn.jsdelivr.net/npm/lit-html@3/"
+        }
+    }
+    </script>
+    
+    <script type="module" src="../dist/index.js"></script>
     <script>
         // Button events
         document.addEventListener('lith-click', (e) => {
