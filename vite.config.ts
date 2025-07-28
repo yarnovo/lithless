@@ -11,16 +11,11 @@ export default defineConfig({
   build: {
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
-      name: 'Lithless',
+      formats: ['es'],
       fileName: 'index'
     },
     rollupOptions: {
-      external: ['lit'],
-      output: {
-        globals: {
-          lit: 'Lit'
-        }
-      }
+      external: ['lit']
     }
   },
   server: {
