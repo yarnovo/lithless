@@ -83,16 +83,34 @@ lithless/
 - `npm run test` - 运行测试
 - `npm run storybook` - 启动 Storybook 文档
 
+## 组件命名规范
+
+### 组件前缀
+- **前缀**: `lith-` (取自项目名 "lithless" 的前四个字母)
+- **格式**: 全小写，使用中划线分隔
+- **示例**: `lith-button`, `lith-checkbox`, `lith-radio-group`
+
+### 文件命名规范
+- **组件文件**: 使用小写中划线格式，如 `lith-button.ts`
+- **故事书文件**: 使用小写中划线格式，如 `button.stories.ts`
+- **测试文件**: 使用小写中划线格式，如 `button.test.ts`
+
+### 事件命名规范
+- **自定义事件**: 使用 `lith-` 前缀，如 `lith-change`, `lith-input`
+- **CSS 自定义属性**: 使用 `--lith-` 前缀，如 `--lith-checkbox-size`
+
 ## 组件实现路线图
 
 ### 当前实现状态
-- **已完成**: Button 组件的基础实现
+- **已完成**: 
+  - Button 组件 (`lith-button`)
+  - Checkbox 组件 (`lith-checkbox`)
 - **进行中**: 项目基础架构和文档完善
 
 ### 分阶段实现计划
 1. **第一阶段 (MVP)** - 基础组件
    - [x] Button - 基础按钮组件
-   - [ ] Checkbox - 复选框组件（支持中间状态）
+   - [x] Checkbox - 复选框组件（支持中间状态）
    - [ ] RadioGroup - 单选框组组件
    - [ ] Switch - 开关组件
 

@@ -1,8 +1,8 @@
 import { LitElement, html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
-@customElement('lit-button')
-export class LitButton extends LitElement {
+@customElement('lith-button')
+export class LithButton extends LitElement {
   static styles = css`
     :host {
       display: inline-block;
@@ -59,7 +59,7 @@ export class LitButton extends LitElement {
     }
 
     this.dispatchEvent(
-      new CustomEvent('lit-click', {
+      new CustomEvent('lith-click', {
         detail: { originalEvent: e },
         bubbles: true,
         composed: true,

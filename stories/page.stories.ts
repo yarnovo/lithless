@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 
-import * as HeaderStories from './Header.stories';
-import type { PageProps } from './Page';
-import { Page } from './Page';
+import * as HeaderStories from './header.stories';
+import type { PageProps } from './page';
+import { Page } from './page';
 
 const meta = {
   title: 'Example/Page',

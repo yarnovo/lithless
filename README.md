@@ -44,21 +44,21 @@ import 'lithless/dist/index.js';
 
 ```html
 <!-- 基础按钮 -->
-<lit-button>点击我</lit-button>
-<lit-button variant="secondary">次要按钮</lit-button>
-<lit-button disabled>禁用按钮</lit-button>
+<lith-button>点击我</lith-button>
+<lith-button variant="secondary">次要按钮</lith-button>
+<lith-button disabled>禁用按钮</lith-button>
 
 <!-- 复选框 -->
-<lit-checkbox checked></lit-checkbox>
+<lith-checkbox checked></lith-checkbox>
 
 <!-- 单选框组 -->
-<lit-radio-group value="option1">
-  <lit-radio value="option1">选项 1</lit-radio>
-  <lit-radio value="option2">选项 2</lit-radio>
-</lit-radio-group>
+<lith-radio-group value="option1">
+  <lith-radio value="option1">选项 1</lith-radio>
+  <lith-radio value="option2">选项 2</lith-radio>
+</lith-radio-group>
 
 <!-- 开关 -->
-<lit-switch checked></lit-switch>
+<lith-switch checked></lith-switch>
 ```
 
 ## 组件路线图

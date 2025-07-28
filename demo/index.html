@@ -42,6 +42,45 @@
         .demo-item > * {
             margin-right: 10px;
         }
+        
+        /* Checkbox styling */
+        lith-checkbox::part(control) {
+            border: 2px solid #ccc;
+            border-radius: 4px;
+            background: white;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 200ms ease;
+        }
+        
+        lith-checkbox[checked]::part(control) {
+            background: #007bff;
+            border-color: #007bff;
+        }
+        
+        lith-checkbox[checked]::part(control)::after {
+            content: '✓';
+            color: white;
+            font-size: 14px;
+        }
+        
+        lith-checkbox[indeterminate]::part(control)::after {
+            content: '−';
+            color: #666;
+            font-size: 16px;
+        }
+        
+        lith-checkbox[disabled] {
+            opacity: 0.5;
+        }
+        
+        lith-checkbox:focus-within::part(control) {
+            outline: 2px solid #007bff;
+            outline-offset: 2px;
+        }
     </style>
 </head>
 <body>
@@ -51,17 +90,71 @@
         <div class="demo-section">
             <h2>按钮组件</h2>
             <div class="demo-item">
-                <lit-button>默认按钮</lit-button>
-                <lit-button variant="secondary">次要按钮</lit-button>
-                <lit-button disabled>禁用按钮</lit-button>
+                <lith-button>默认按钮</lith-button>
+                <lith-button variant="secondary">次要按钮</lith-button>
+                <lith-button disabled>禁用按钮</lith-button>
             </div>
+        </div>
+        
+        <div class="demo-section">
+            <h2>复选框组件</h2>
+            <div class="demo-item">
+                <lith-checkbox>默认复选框</lith-checkbox>
+            </div>
+            <div class="demo-item">
+                <lith-checkbox checked>已选中复选框</lith-checkbox>
+            </div>
+            <div class="demo-item">
+                <lith-checkbox indeterminate>不确定状态复选框</lith-checkbox>
+            </div>
+            <div class="demo-item">
+                <lith-checkbox disabled>禁用复选框</lith-checkbox>
+            </div>
+            <div class="demo-item">
+                <lith-checkbox disabled checked>禁用已选中复选框</lith-checkbox>
+            </div>
+        </div>
+        
+        <div class="demo-section">
+            <h2>表单示例</h2>
+            <form id="demo-form">
+                <div class="demo-item">
+                    <lith-checkbox name="agreement" required>我同意服务条款</lith-checkbox>
+                </div>
+                <div class="demo-item">
+                    <lith-checkbox name="newsletter" value="yes">订阅新闻通讯</lith-checkbox>
+                </div>
+                <div class="demo-item">
+                    <lith-checkbox name="notifications" value="enabled" checked>启用通知</lith-checkbox>
+                </div>
+                <div class="demo-item" style="margin-top: 20px;">
+                    <button type="submit">提交</button>
+                    <button type="reset">重置</button>
+                </div>
+            </form>
         </div>
     </div>
 
     <script type="module" src="../src/index.ts"></script>
     <script>
-        document.addEventListener('lit-click', (e) => {
+        // Button events
+        document.addEventListener('lith-click', (e) => {
             console.log('Button clicked:', e.detail);
+        });
+        
+        // Checkbox events
+        document.addEventListener('lith-change', (e) => {
+            if (e.target.tagName === 'LITH-CHECKBOX') {
+                console.log('Checkbox changed:', e.target, e.detail);
+            }
+        });
+        
+        // Form submission
+        document.getElementById('demo-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            console.log('Form data:', Object.fromEntries(formData));
+            alert('表单已提交！请查看控制台获取数据。');
         });
     </script>
 </body>
