@@ -185,8 +185,9 @@ export class LithVirtualScroll extends LitElement {
 
     this.scrollRAF = requestAnimationFrame(() => {
       const target = event.target as HTMLElement;
-      const scrollTop = target.scrollTop;
+      if (!target) return;
 
+      const scrollTop = target.scrollTop || 0;
       this.updateScrollPosition(scrollTop);
     });
   };
@@ -216,9 +217,9 @@ export class LithVirtualScroll extends LitElement {
   }
 
   private updateVisibleItems(): void {
-    if (!this.virtualScrollCore) return;
+    if (!this.virtualScrollCore || !this.scrollContainer) return;
 
-    const scrollTop = this.scrollContainer?.scrollTop || 0;
+    const scrollTop = this.scrollContainer.scrollTop || 0;
     const updateInfo = this.virtualScrollCore.updateScrollTop(scrollTop);
 
     this.currentRange = updateInfo.range;

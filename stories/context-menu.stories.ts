@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/web-components';
 import { html } from 'lit';
+import { expect, userEvent, within } from 'storybook/test';
 import '../src/components/navigation/lith-context-menu.js';
 
 const meta: Meta = {
@@ -65,6 +66,51 @@ export const Default: Story = {
     items: basicItems,
     preventDefault: true,
   },
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+
+    await step('应该渲染右键菜单区域', async () => {
+      const targetArea = canvas.getByText('右键点击我显示菜单');
+      await expect(targetArea).toBeInTheDocument();
+    });
+
+    await step('右键点击应该显示上下文菜单', async () => {
+      const targetArea = canvas.getByText('右键点击我显示菜单');
+      await userEvent.pointer({ keys: '[MouseRight]', target: targetArea });
+
+      // 等待菜单出现
+      await new Promise((resolve) => setTimeout(resolve, 200));
+
+      // 通过 shadow DOM 查找菜单项
+      const contextMenu = canvasElement.querySelector('lith-context-menu');
+      expect(contextMenu).toBeInTheDocument();
+
+      const popover = contextMenu?.shadowRoot?.querySelector('lith-popover');
+      expect(popover).toBeTruthy();
+
+      const cutItem = popover?.shadowRoot?.querySelector('[data-item-id="cut"]');
+      expect(cutItem).toBeTruthy();
+
+      const copyItem = popover?.shadowRoot?.querySelector('[data-item-id="copy"]');
+      expect(copyItem).toBeTruthy();
+    });
+
+    await step('点击菜单项应该触发选择事件', async () => {
+      // 通过 shadow DOM 查找并点击菜单项
+      const contextMenu = canvasElement.querySelector('lith-context-menu');
+      const popover = contextMenu?.shadowRoot?.querySelector('lith-popover');
+      const cutItem = popover?.shadowRoot?.querySelector('[data-item-id="cut"]') as HTMLElement;
+
+      expect(cutItem).toBeTruthy();
+      await userEvent.click(cutItem);
+
+      // 等待菜单关闭
+      await new Promise((resolve) => setTimeout(resolve, 100));
+
+      // 检查 popover open 属性应该为 false
+      expect(popover?.hasAttribute('open')).toBe(false);
+    });
+  },
   render: (args) => html`
     <lith-context-menu
       .items=${args.items}
@@ -116,6 +162,43 @@ export const FileManager: Story = {
       { id: 'properties', label: 'Properties', shortcut: 'Alt+Enter', icon: '⚙️' },
     ],
     preventDefault: true,
+  },
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+
+    await step('应该渲染文件项', async () => {
+      const documentFile = canvas.getByText('Document.pdf');
+      const imageFile = canvas.getByText('Image.jpg');
+      const folder = canvas.getByText('Folder');
+
+      await expect(documentFile).toBeInTheDocument();
+      await expect(imageFile).toBeInTheDocument();
+      await expect(folder).toBeInTheDocument();
+    });
+
+    await step('右键点击文件应该显示文件管理器菜单', async () => {
+      const documentFile = canvas.getByText('Document.pdf');
+      await userEvent.pointer({ keys: '[MouseRight]', target: documentFile });
+
+      // 等待菜单出现
+      await new Promise((resolve) => setTimeout(resolve, 100));
+
+      const openItem = canvas.getByText('Open', { timeout: 1000 });
+      const renameItem = canvas.getByText('Rename');
+      const deleteItem = canvas.getByText('Delete');
+
+      await expect(openItem).toBeInTheDocument();
+      await expect(renameItem).toBeInTheDocument();
+      await expect(deleteItem).toBeInTheDocument();
+    });
+
+    await step('选择菜单项应该正常工作', async () => {
+      const renameItem = canvas.getByText('Rename');
+      await userEvent.click(renameItem);
+
+      // 菜单应该关闭
+      await expect(canvas.queryByText('Open')).not.toBeInTheDocument();
+    });
   },
   render: (args) => html`
     <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; padding: 20px;">
@@ -393,6 +476,50 @@ export const ProgrammaticControl: Story = {
       { id: 'action3', label: 'Action 3', icon: '3️⃣' },
     ],
     preventDefault: true,
+  },
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+
+    await step('应该渲染目标区域和控制按钮', async () => {
+      const targetArea = canvas.getByText('Target Area');
+      const showButton = canvas.getByText('Show Menu');
+      const showAtButton = canvas.getByText('Show at (300, 200)');
+      const closeButton = canvas.getByText('Close Menu');
+
+      await expect(targetArea).toBeInTheDocument();
+      await expect(showButton).toBeInTheDocument();
+      await expect(showAtButton).toBeInTheDocument();
+      await expect(closeButton).toBeInTheDocument();
+    });
+
+    await step('点击 Show Menu 应该显示菜单', async () => {
+      const showButton = canvas.getByText('Show Menu');
+      await userEvent.click(showButton);
+
+      // 等待菜单出现
+      await new Promise((resolve) => setTimeout(resolve, 100));
+
+      const action1 = canvas.getByText('Action 1', { timeout: 1000 });
+      await expect(action1).toBeInTheDocument();
+    });
+
+    await step('点击 Close Menu 应该关闭菜单', async () => {
+      const closeButton = canvas.getByText('Close Menu');
+      await userEvent.click(closeButton);
+
+      await expect(canvas.queryByText('Action 1')).not.toBeInTheDocument();
+    });
+
+    await step('点击 Show at 应该在指定位置显示菜单', async () => {
+      const showAtButton = canvas.getByText('Show at (300, 200)');
+      await userEvent.click(showAtButton);
+
+      // 等待菜单出现
+      await new Promise((resolve) => setTimeout(resolve, 100));
+
+      const action2 = canvas.getByText('Action 2', { timeout: 1000 });
+      await expect(action2).toBeInTheDocument();
+    });
   },
   render: (args) => html`
     <div style="display: flex; gap: 16px; align-items: center;">

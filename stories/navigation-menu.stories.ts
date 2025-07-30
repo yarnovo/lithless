@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/web-components';
 import { html } from 'lit';
+import { expect, userEvent, within } from 'storybook/test';
 import '../src/components/navigation/lith-navigation-menu.js';
 
 const meta: Meta = {
@@ -134,6 +135,46 @@ export const Default: Story = {
     closeOnSelect: true,
     disabled: false,
     hoverDelay: 300,
+  },
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+
+    await step('应该渲染导航菜单触发器', async () => {
+      const trigger = canvas.getByText('🧭 Navigation ▼');
+      await expect(trigger).toBeInTheDocument();
+    });
+
+    await step('点击触发器应该打开导航菜单', async () => {
+      const trigger = canvas.getByText('🧭 Navigation ▼');
+      await userEvent.click(trigger);
+
+      const productsItem = canvas.getByText('Products');
+      const servicesItem = canvas.getByText('Services');
+      const resourcesItem = canvas.getByText('Resources');
+
+      await expect(productsItem).toBeInTheDocument();
+      await expect(servicesItem).toBeInTheDocument();
+      await expect(resourcesItem).toBeInTheDocument();
+    });
+
+    await step('点击有子菜单的项应该展开子菜单', async () => {
+      const productsItem = canvas.getByText('Products');
+      await userEvent.click(productsItem);
+
+      const webAppsItem = canvas.getByText('Web Applications');
+      const mobileAppsItem = canvas.getByText('Mobile Apps');
+
+      await expect(webAppsItem).toBeInTheDocument();
+      await expect(mobileAppsItem).toBeInTheDocument();
+    });
+
+    await step('点击子菜单项应该触发选择事件', async () => {
+      const webAppsItem = canvas.getByText('Web Applications');
+      await userEvent.click(webAppsItem);
+
+      // 菜单应该关闭
+      await expect(canvas.queryByText('Web Applications')).not.toBeInTheDocument();
+    });
   },
   render: (args) => html`
     <lith-navigation-menu
@@ -299,6 +340,51 @@ export const ECommerceCategories: Story = {
     closeOnSelect: true,
     disabled: false,
     hoverDelay: 250,
+  },
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+
+    await step('应该渲染电商分类菜单', async () => {
+      const trigger = canvas.getByText('🛍️ Shop Categories ▼');
+      await expect(trigger).toBeInTheDocument();
+    });
+
+    await step('打开主菜单应该显示分类', async () => {
+      const trigger = canvas.getByText('🛍️ Shop Categories ▼');
+      await userEvent.click(trigger);
+
+      const electronicsItem = canvas.getByText('Electronics');
+      const clothingItem = canvas.getByText('Clothing');
+      const saleItem = canvas.getByText('Sale');
+
+      await expect(electronicsItem).toBeInTheDocument();
+      await expect(clothingItem).toBeInTheDocument();
+      await expect(saleItem).toBeInTheDocument();
+    });
+
+    await step('展开 Electronics 应该显示子分类', async () => {
+      const electronicsItem = canvas.getByText('Electronics');
+      await userEvent.click(electronicsItem);
+
+      const computersItem = canvas.getByText('Computers');
+      const mobileItem = canvas.getByText('Mobile Devices');
+      const audioItem = canvas.getByText('Audio Equipment');
+
+      await expect(computersItem).toBeInTheDocument();
+      await expect(mobileItem).toBeInTheDocument();
+      await expect(audioItem).toBeInTheDocument();
+    });
+
+    await step('展开 Computers 应该显示具体产品', async () => {
+      const computersItem = canvas.getByText('Computers');
+      await userEvent.click(computersItem);
+
+      const laptopsItem = canvas.getByText('Laptops');
+      const desktopsItem = canvas.getByText('Desktops');
+
+      await expect(laptopsItem).toBeInTheDocument();
+      await expect(desktopsItem).toBeInTheDocument();
+    });
   },
   render: (args) => html`
     <lith-navigation-menu
@@ -689,6 +775,54 @@ export const ProgrammaticControl: Story = {
     closeOnSelect: true,
     disabled: false,
     hoverDelay: 300,
+  },
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+
+    await step('应该渲染用户菜单和控制按钮', async () => {
+      const trigger = canvas.getByText('User Menu ▼');
+      const showButton = canvas.getByText('Show');
+      const closeButton = canvas.getByText('Close');
+      const toggleButton = canvas.getByText('Toggle');
+
+      await expect(trigger).toBeInTheDocument();
+      await expect(showButton).toBeInTheDocument();
+      await expect(closeButton).toBeInTheDocument();
+      await expect(toggleButton).toBeInTheDocument();
+    });
+
+    await step('点击 Show 按钮应该显示菜单', async () => {
+      const showButton = canvas.getByText('Show');
+      await userEvent.click(showButton);
+
+      const accountItem = canvas.getByText('Account');
+      const helpItem = canvas.getByText('Help Center');
+      const logoutItem = canvas.getByText('Sign Out');
+
+      await expect(accountItem).toBeInTheDocument();
+      await expect(helpItem).toBeInTheDocument();
+      await expect(logoutItem).toBeInTheDocument();
+    });
+
+    await step('点击 Account 应该显示子菜单', async () => {
+      const accountItem = canvas.getByText('Account');
+      await userEvent.click(accountItem);
+
+      const profileItem = canvas.getByText('Profile Settings');
+      const billingItem = canvas.getByText('Billing');
+      const securityItem = canvas.getByText('Security');
+
+      await expect(profileItem).toBeInTheDocument();
+      await expect(billingItem).toBeInTheDocument();
+      await expect(securityItem).toBeInTheDocument();
+    });
+
+    await step('点击 Close 按钮应该关闭菜单', async () => {
+      const closeButton = canvas.getByText('Close');
+      await userEvent.click(closeButton);
+
+      await expect(canvas.queryByText('Account')).not.toBeInTheDocument();
+    });
   },
   render: (args) => html`
     <div style="display: flex; gap: 16px; align-items: center;">

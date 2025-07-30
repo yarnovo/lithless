@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/web-components';
 import { html } from 'lit';
+import { expect, userEvent, within } from 'storybook/test';
 import '../src/components/navigation/lith-dropdown-menu.js';
 
 const meta: Meta = {
@@ -90,6 +91,35 @@ export const Default: Story = {
     closeOnSelect: true,
     disabled: false,
   },
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+
+    await step('应该渲染下拉菜单触发器', async () => {
+      const trigger = canvas.getByText('File ▼');
+      await expect(trigger).toBeInTheDocument();
+    });
+
+    await step('点击触发器应该打开下拉菜单', async () => {
+      const trigger = canvas.getByText('File ▼');
+      await userEvent.click(trigger);
+
+      const newItem = canvas.getByText('New');
+      const openItem = canvas.getByText('Open');
+      const saveItem = canvas.getByText('Save');
+
+      await expect(newItem).toBeInTheDocument();
+      await expect(openItem).toBeInTheDocument();
+      await expect(saveItem).toBeInTheDocument();
+    });
+
+    await step('点击菜单项应该触发选择事件', async () => {
+      const newItem = canvas.getByText('New');
+      await userEvent.click(newItem);
+
+      // 菜单应该关闭
+      await expect(canvas.queryByText('New')).not.toBeInTheDocument();
+    });
+  },
   render: (args) => html`
     <lith-dropdown-menu
       .items=${args.items}
@@ -140,6 +170,39 @@ export const WithDisabledItems: Story = {
     placement: 'bottom-start',
     closeOnSelect: true,
     disabled: false,
+  },
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+
+    await step('应该渲染编辑菜单', async () => {
+      const trigger = canvas.getByText('Edit ▼');
+      await expect(trigger).toBeInTheDocument();
+    });
+
+    await step('打开菜单应该显示启用和禁用的项目', async () => {
+      const trigger = canvas.getByText('Edit ▼');
+      await userEvent.click(trigger);
+
+      const undoItem = canvas.getByText('Undo');
+      const redoItem = canvas.getByText('Redo');
+      const pasteItem = canvas.getByText('Paste');
+
+      await expect(undoItem).toBeInTheDocument();
+      await expect(redoItem).toBeInTheDocument();
+      await expect(pasteItem).toBeInTheDocument();
+
+      // 检查禁用的项目样式
+      await expect(redoItem).toHaveClass('disabled');
+      await expect(pasteItem).toHaveClass('disabled');
+    });
+
+    await step('点击启用的项目应该正常工作', async () => {
+      const undoItem = canvas.getByText('Undo');
+      await userEvent.click(undoItem);
+
+      // 菜单应该关闭
+      await expect(canvas.queryByText('Undo')).not.toBeInTheDocument();
+    });
   },
   render: (args) => html`
     <lith-dropdown-menu
@@ -534,6 +597,49 @@ export const ProgrammaticControl: Story = {
     placement: 'bottom-start',
     closeOnSelect: true,
     disabled: false,
+  },
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+
+    await step('应该渲染菜单和控制按钮', async () => {
+      const trigger = canvas.getByText('Actions ▼');
+      const showButton = canvas.getByText('Show');
+      const closeButton = canvas.getByText('Close');
+      const toggleButton = canvas.getByText('Toggle');
+
+      await expect(trigger).toBeInTheDocument();
+      await expect(showButton).toBeInTheDocument();
+      await expect(closeButton).toBeInTheDocument();
+      await expect(toggleButton).toBeInTheDocument();
+    });
+
+    await step('点击 Show 按钮应该显示菜单', async () => {
+      const showButton = canvas.getByText('Show');
+      await userEvent.click(showButton);
+
+      const action1 = canvas.getByText('Action 1');
+      await expect(action1).toBeInTheDocument();
+    });
+
+    await step('点击 Close 按钮应该关闭菜单', async () => {
+      const closeButton = canvas.getByText('Close');
+      await userEvent.click(closeButton);
+
+      await expect(canvas.queryByText('Action 1')).not.toBeInTheDocument();
+    });
+
+    await step('点击 Toggle 按钮应该切换菜单状态', async () => {
+      const toggleButton = canvas.getByText('Toggle');
+
+      // 第一次切换：打开菜单
+      await userEvent.click(toggleButton);
+      const action2 = canvas.getByText('Action 2');
+      await expect(action2).toBeInTheDocument();
+
+      // 第二次切换：关闭菜单
+      await userEvent.click(toggleButton);
+      await expect(canvas.queryByText('Action 2')).not.toBeInTheDocument();
+    });
   },
   render: (args) => html`
     <div style="display: flex; gap: 16px; align-items: center;">

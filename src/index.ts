@@ -48,6 +48,11 @@ export type {
   NavigationMenuSelectDetail,
 } from './components/navigation/lith-navigation-menu.js';
 
+export { LithMenuBar } from './components/navigation/lith-menu-bar.js';
+export type { MenuBarItem, MenuBarSelectDetail } from './components/navigation/lith-menu-bar.js';
+
 export { LithMenu } from './components/navigation/lith-menu.js';
 export { LithMenuItem } from './components/navigation/lith-menu-item.js';
 export type { MenuItemClickDetail } from './components/navigation/lith-menu.js';
+
+export { LithPortal } from './components/feedback/lith-portal.js';

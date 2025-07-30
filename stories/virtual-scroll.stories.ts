@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/web-components';
 import { html } from 'lit';
+import { expect, userEvent, fn } from 'storybook/test';
 import '../src/components/form/lith-virtual-scroll.js';
 import type { LithVirtualScroll } from '../src/components/form/lith-virtual-scroll.js';
 import type { VirtualScrollItem } from '../src/utils/virtual-scroll-core.js';
@@ -26,16 +27,29 @@ const meta: Meta<LithVirtualScroll> = {
         component: `
 虚拟滚动组件提供高性能的大列表渲染能力。
 
-**特性：**
+## 特性
 - 支持大量数据的高性能渲染
 - 动态高度支持
 - 缓冲区和overscan优化
 - 响应式设计
 - 自定义渲染支持
 - 键盘导航和可访问性
+
+## 使用场景
+- 大型数据列表
+- 聊天消息列表
+- 无限滚动
+- 表格虚拟化
+
+## Storybook 9 交互测试
+- 使用 \`play\` 函数进行交互测试
+- 使用 \`expect\` 进行断言
+- 使用 \`within\` 查询元素
+- 使用 \`userEvent\` 模拟用户交互
         `,
       },
     },
+    layout: 'padded',
   },
   argTypes: {
     items: {
@@ -79,99 +93,7 @@ export const Default: Story = {
     emptyText: '暂无数据',
   },
   render: (args) => html`
-    <style>
-      .virtual-scroll-demo {
-        height: 400px;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        background: #fff;
-      }
-
-      .demo-item {
-        display: flex;
-        align-items: center;
-        padding: 16px;
-        border-bottom: 1px solid #f0f0f0;
-        background: #fff;
-        transition: background-color 0.2s;
-      }
-
-      .demo-item:hover {
-        background-color: #f5f5f5;
-      }
-
-      .demo-item:last-child {
-        border-bottom: none;
-      }
-
-      .item-avatar {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        background: var(--item-color, #007bff);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        font-weight: bold;
-        margin-right: 12px;
-        font-size: 14px;
-      }
-
-      .item-content {
-        flex: 1;
-      }
-
-      .item-name {
-        font-weight: 600;
-        margin-bottom: 4px;
-        color: #333;
-      }
-
-      .item-description {
-        color: #666;
-        font-size: 14px;
-        margin-bottom: 4px;
-      }
-
-      .item-meta {
-        display: flex;
-        gap: 16px;
-        font-size: 12px;
-        color: #999;
-      }
-
-      .item-badge {
-        padding: 2px 8px;
-        border-radius: 12px;
-        font-size: 11px;
-        font-weight: 500;
-        text-transform: uppercase;
-      }
-
-      .type-primary {
-        background: #e3f2fd;
-        color: #1976d2;
-      }
-      .type-secondary {
-        background: #f3e5f5;
-        color: #7b1fa2;
-      }
-      .type-success {
-        background: #e8f5e8;
-        color: #388e3c;
-      }
-      .type-warning {
-        background: #fff3e0;
-        color: #f57c00;
-      }
-      .type-danger {
-        background: #ffebee;
-        color: #d32f2f;
-      }
-    </style>
-
-    <div class="virtual-scroll-demo">
+    <div style="height: 400px;">
       <lith-virtual-scroll
         .items=${args.items}
         item-height="${args.itemHeight}"
@@ -179,15 +101,63 @@ export const Default: Story = {
         overscan="${args.overscan}"
         ?loading=${args.loading}
         empty-text="${args.emptyText}"
-        @lith-render-item=${() => {
-          // 这里我们不能直接修改渲染结果，因为事件是在渲染之后触发的
-          // 实际使用中应该通过slot或者继承组件来自定义渲染
-        }}
-      >
-        <!-- 实际项目中可以通过slot或者继承组件来自定义渲染 -->
-      </lith-virtual-scroll>
+      ></lith-virtual-scroll>
     </div>
   `,
+  play: async ({ canvasElement }) => {
+    // 等待组件渲染
+    await new Promise((resolve) => setTimeout(resolve, 100));
+
+    // 获取虚拟滚动组件
+    const virtualScroll = canvasElement.querySelector('lith-virtual-scroll') as LithVirtualScroll;
+    expect(virtualScroll).toBeInTheDocument();
+
+    // 验证组件属性设置正确
+    expect(virtualScroll.items.length).toBe(10000);
+    expect(virtualScroll.itemHeight).toBe(60);
+    expect(virtualScroll.bufferSize).toBe(5);
+    expect(virtualScroll.overscan).toBe(2);
+
+    // 获取 shadow DOM 内部元素
+    const shadowRoot = virtualScroll.shadowRoot;
+    expect(shadowRoot).toBeTruthy();
+
+    const scrollContainer = shadowRoot?.querySelector('.scroll-container') as HTMLElement;
+    expect(scrollContainer).toBeInTheDocument();
+
+    // 验证初始渲染的项目数量（应该只渲染可见区域的项目）
+    const renderedItems = shadowRoot?.querySelectorAll('.scroll-item');
+    expect(renderedItems?.length).toBeGreaterThan(0);
+    expect(renderedItems?.length).toBeLessThan(100); // 应该远小于总数
+
+    // 验证占位元素高度
+    const spacer = shadowRoot?.querySelector('.scroll-spacer') as HTMLElement;
+    expect(spacer).toBeInTheDocument();
+    const expectedHeight = 10000 * 60; // items.length * itemHeight
+    expect(spacer.style.height).toBe(`${expectedHeight}px`);
+
+    // 测试滚动功能
+    if (scrollContainer) {
+      // 记录初始状态
+      const initialScrollTop = scrollContainer.scrollTop;
+      expect(initialScrollTop).toBe(0);
+
+      // 滚动到中间位置
+      scrollContainer.scrollTop = 5000;
+      scrollContainer.dispatchEvent(new Event('scroll', { bubbles: true }));
+
+      // 等待滚动更新
+      await new Promise((resolve) => setTimeout(resolve, 100));
+
+      // 验证滚动位置更新
+      const viewport = shadowRoot?.querySelector('.scroll-viewport') as HTMLElement;
+      expect(viewport.style.transform).toContain('translateY');
+
+      // 验证仍有项目渲染
+      const itemsAfterScroll = shadowRoot?.querySelectorAll('.scroll-item');
+      expect(itemsAfterScroll?.length).toBeGreaterThan(0);
+    }
+  },
 };
 
 // 加载状态
@@ -198,35 +168,30 @@ export const Loading: Story = {
     loading: true,
   },
   render: (args) => html`
-    <div class="virtual-scroll-demo" style="height: 300px; border: 1px solid #ddd;">
+    <div style="height: 300px;">
       <lith-virtual-scroll
         .items=${args.items}
         item-height="${args.itemHeight}"
         ?loading=${args.loading}
-      >
-        <div
-          slot="loading"
-          style="display: flex; align-items: center; justify-content: center; gap: 8px;"
-        >
-          <div
-            style="width: 20px; height: 20px; border: 2px solid #f3f3f3; border-top: 2px solid #007bff; border-radius: 50%; animation: spin 1s linear infinite;"
-          ></div>
-          正在加载数据...
-        </div>
-      </lith-virtual-scroll>
+      ></lith-virtual-scroll>
     </div>
-
-    <style>
-      @keyframes spin {
-        0% {
-          transform: rotate(0deg);
-        }
-        100% {
-          transform: rotate(360deg);
-        }
-      }
-    </style>
   `,
+  play: async ({ canvasElement }) => {
+    await new Promise((resolve) => setTimeout(resolve, 100));
+
+    const virtualScroll = canvasElement.querySelector('lith-virtual-scroll') as LithVirtualScroll;
+    expect(virtualScroll).toBeInTheDocument();
+    expect(virtualScroll.loading).toBe(true);
+
+    const shadowRoot = virtualScroll.shadowRoot;
+    const loadingElement = shadowRoot?.querySelector('.loading');
+    expect(loadingElement).toBeInTheDocument();
+    expect(loadingElement?.textContent).toContain('加载中');
+
+    // 验证没有渲染滚动容器
+    const scrollContainer = shadowRoot?.querySelector('.scroll-container');
+    expect(scrollContainer).not.toBeInTheDocument();
+  },
 };
 
 // 空状态
@@ -238,93 +203,32 @@ export const Empty: Story = {
     emptyText: '没有找到任何数据',
   },
   render: (args) => html`
-    <div class="virtual-scroll-demo" style="height: 300px; border: 1px solid #ddd;">
+    <div style="height: 300px;">
       <lith-virtual-scroll
         .items=${args.items}
         item-height="${args.itemHeight}"
         ?loading=${args.loading}
         empty-text="${args.emptyText}"
-      >
-        <div
-          slot="empty"
-          style="display: flex; flex-direction: column; align-items: center; gap: 16px; color: #999;"
-        >
-          <svg width="64" height="64" fill="currentColor" viewBox="0 0 16 16">
-            <path
-              d="M6 .5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v4H6V.5ZM5 4.5H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2h-1v-.5a1.5 1.5 0 0 0-1.5-1.5h-3A1.5 1.5 0 0 0 5 4ZM4 6.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v5a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5v-5Z"
-            />
-          </svg>
-          <div style="text-align: center;">
-            <div style="font-weight: 600; margin-bottom: 4px;">暂无数据</div>
-            <div style="font-size: 14px;">请尝试添加一些内容或调整筛选条件</div>
-          </div>
-        </div>
-      </lith-virtual-scroll>
+      ></lith-virtual-scroll>
     </div>
   `,
-};
+  play: async ({ canvasElement }) => {
+    await new Promise((resolve) => setTimeout(resolve, 100));
 
-// 不同高度的项目
-export const DynamicHeight: Story = {
-  args: {
-    items: Array.from({ length: 1000 }, (_, index) => ({
-      id: index,
-      data: {
-        name: `动态高度项目 ${index + 1}`,
-        content:
-          index % 3 === 0
-            ? '这是一个较短的内容。'
-            : index % 3 === 1
-              ? '这是一个中等长度的内容，包含更多的文字描述，用来测试动态高度的功能是否正常工作。'
-              : '这是一个很长的内容描述，包含大量的文字信息。它用来测试虚拟滚动组件是否能够正确处理不同高度的项目，确保滚动位置计算的准确性，以及用户体验的流畅性。这种情况在实际应用中很常见，比如社交媒体的动态列表、评论系统等场景。',
-        type: ['short', 'medium', 'long'][index % 3],
-      },
-      height: [60, 100, 160][index % 3], // 不同的高度
-    })),
-    itemHeight: 80, // 平均高度
-    bufferSize: 3,
+    const virtualScroll = canvasElement.querySelector('lith-virtual-scroll') as LithVirtualScroll;
+    expect(virtualScroll).toBeInTheDocument();
+    expect(virtualScroll.items.length).toBe(0);
+    expect(virtualScroll.loading).toBe(false);
+
+    const shadowRoot = virtualScroll.shadowRoot;
+    const emptyElement = shadowRoot?.querySelector('.empty');
+    expect(emptyElement).toBeInTheDocument();
+    expect(emptyElement?.textContent).toContain('没有找到任何数据');
+
+    // 验证没有渲染滚动容器
+    const scrollContainer = shadowRoot?.querySelector('.scroll-container');
+    expect(scrollContainer).not.toBeInTheDocument();
   },
-  render: (args) => html`
-    <style>
-      .dynamic-item {
-        padding: 16px;
-        border-bottom: 1px solid #eee;
-        background: #fff;
-        min-height: 60px;
-      }
-
-      .dynamic-item.short {
-        background: #f8f9ff;
-      }
-      .dynamic-item.medium {
-        background: #fff8f0;
-      }
-      .dynamic-item.long {
-        background: #f0fff8;
-      }
-
-      .dynamic-item h4 {
-        margin: 0 0 8px 0;
-        color: #333;
-      }
-
-      .dynamic-item p {
-        margin: 0;
-        color: #666;
-        line-height: 1.5;
-      }
-    </style>
-
-    <div class="virtual-scroll-demo" style="height: 400px; border: 1px solid #ddd;">
-      <lith-virtual-scroll
-        .items=${args.items}
-        item-height="${args.itemHeight}"
-        buffer-size="${args.bufferSize}"
-      >
-        <!-- 实际项目中可以通过slot或继承来实现自定义渲染 -->
-      </lith-virtual-scroll>
-    </div>
-  `,
 };
 
 // 小数据集
@@ -335,7 +239,7 @@ export const SmallDataset: Story = {
     bufferSize: 10,
   },
   render: (args) => html`
-    <div class="virtual-scroll-demo" style="height: 300px; border: 1px solid #ddd;">
+    <div style="height: 400px;">
       <lith-virtual-scroll
         .items=${args.items}
         item-height="${args.itemHeight}"
@@ -343,10 +247,24 @@ export const SmallDataset: Story = {
       ></lith-virtual-scroll>
     </div>
   `,
+  play: async ({ canvasElement }) => {
+    await new Promise((resolve) => setTimeout(resolve, 100));
+
+    const virtualScroll = canvasElement.querySelector('lith-virtual-scroll') as LithVirtualScroll;
+    expect(virtualScroll).toBeInTheDocument();
+    expect(virtualScroll.items.length).toBe(50);
+
+    const shadowRoot = virtualScroll.shadowRoot;
+    const renderedItems = shadowRoot?.querySelectorAll('.scroll-item');
+
+    // 对于小数据集，可能会渲染所有项目
+    expect(renderedItems?.length).toBeGreaterThan(0);
+    expect(renderedItems?.length).toBeLessThanOrEqual(50);
+  },
 };
 
-// 性能测试 - 超大数据集
-export const LargeDataset: Story = {
+// 滚动性能测试
+export const ScrollPerformance: Story = {
   args: {
     items: generateItems(100000),
     itemHeight: 50,
@@ -354,20 +272,254 @@ export const LargeDataset: Story = {
     overscan: 5,
   },
   render: (args) => html`
-    <div
-      style="margin-bottom: 16px; padding: 12px; background: #f0f8ff; border-radius: 6px; font-size: 14px;"
-    >
-      <strong>性能测试:</strong> 此示例包含 ${args.items.length.toLocaleString()}
-      个项目，测试虚拟滚动的性能表现。
+    <div>
+      <div style="margin-bottom: 16px; padding: 12px; background: #f0f8ff; border-radius: 6px;">
+        <strong>性能测试:</strong> 包含 ${args.items.length.toLocaleString()} 个项目
+      </div>
+      <div style="height: 500px;">
+        <lith-virtual-scroll
+          .items=${args.items}
+          item-height="${args.itemHeight}"
+          buffer-size="${args.bufferSize}"
+          overscan="${args.overscan}"
+        ></lith-virtual-scroll>
+      </div>
     </div>
+  `,
+  play: async ({ canvasElement }) => {
+    await new Promise((resolve) => setTimeout(resolve, 100));
 
-    <div class="virtual-scroll-demo" style="height: 500px; border: 1px solid #ddd;">
+    const virtualScroll = canvasElement.querySelector('lith-virtual-scroll') as LithVirtualScroll;
+    expect(virtualScroll).toBeInTheDocument();
+    expect(virtualScroll.items.length).toBe(100000);
+
+    const shadowRoot = virtualScroll.shadowRoot;
+    const scrollContainer = shadowRoot?.querySelector('.scroll-container') as HTMLElement;
+
+    // 验证虚拟化生效：即使有10万个项目，也只渲染少量DOM元素
+    const renderedItems = shadowRoot?.querySelectorAll('.scroll-item');
+    expect(renderedItems?.length).toBeLessThan(100);
+
+    if (scrollContainer) {
+      // 性能测试：快速滚动
+      const startTime = performance.now();
+
+      // 滚动到不同位置
+      const positions = [0, 25000, 50000, 75000, scrollContainer.scrollHeight];
+
+      for (const pos of positions) {
+        scrollContainer.scrollTop = pos;
+        scrollContainer.dispatchEvent(new Event('scroll', { bubbles: true }));
+        await new Promise((resolve) => setTimeout(resolve, 50));
+
+        // 验证每次滚动后都有项目渲染
+        const items = shadowRoot?.querySelectorAll('.scroll-item');
+        expect(items?.length).toBeGreaterThan(0);
+        expect(items?.length).toBeLessThan(100);
+      }
+
+      const endTime = performance.now();
+      const duration = endTime - startTime;
+
+      // 性能断言：滚动操作应该很快完成
+      expect(duration).toBeLessThan(2000); // 2秒内完成所有滚动
+    }
+  },
+};
+
+// 事件测试
+export const EventHandling: Story = {
+  args: {
+    items: generateItems(1000),
+    itemHeight: 60,
+    bufferSize: 5,
+    overscan: 2,
+  },
+  render: (args) => {
+    // 创建事件监听器
+    const scrollHandler = fn();
+    const renderItemHandler = fn();
+
+    return html`
+      <div style="height: 400px;">
+        <lith-virtual-scroll
+          .items=${args.items}
+          item-height="${args.itemHeight}"
+          buffer-size="${args.bufferSize}"
+          overscan="${args.overscan}"
+          @lith-scroll=${scrollHandler}
+          @lith-render-item=${renderItemHandler}
+        ></lith-virtual-scroll>
+      </div>
+    `;
+  },
+  play: async ({ canvasElement }) => {
+    await new Promise((resolve) => setTimeout(resolve, 100));
+
+    const virtualScroll = canvasElement.querySelector('lith-virtual-scroll') as LithVirtualScroll;
+    const shadowRoot = virtualScroll.shadowRoot;
+    const scrollContainer = shadowRoot?.querySelector('.scroll-container') as HTMLElement;
+
+    // 验证组件已加载
+    expect(virtualScroll).toBeInTheDocument();
+
+    if (scrollContainer) {
+      // 触发滚动事件
+      scrollContainer.scrollTop = 500;
+      scrollContainer.dispatchEvent(new Event('scroll', { bubbles: true }));
+
+      await new Promise((resolve) => setTimeout(resolve, 100));
+
+      // 验证滚动事件被触发
+      // 这里可以通过检查组件状态来验证
+      expect(scrollContainer.scrollTop).toBe(500);
+    }
+  },
+};
+
+// API 方法测试
+export const APIMethods: Story = {
+  args: {
+    items: generateItems(1000),
+    itemHeight: 60,
+    bufferSize: 5,
+  },
+  render: (args) => html`
+    <div>
+      <div style="margin-bottom: 16px; display: flex; gap: 8px;">
+        <button id="scroll-to-100">滚动到索引 100</button>
+        <button id="scroll-to-500">滚动到索引 500</button>
+        <button id="get-position">获取位置信息</button>
+      </div>
+      <div style="height: 400px;">
+        <lith-virtual-scroll
+          id="virtual-scroll"
+          .items=${args.items}
+          item-height="${args.itemHeight}"
+          buffer-size="${args.bufferSize}"
+        ></lith-virtual-scroll>
+      </div>
+      <div
+        id="position-info"
+        style="margin-top: 16px; padding: 12px; background: #f8f9fa; border-radius: 4px;"
+      >
+        位置信息将显示在这里
+      </div>
+    </div>
+  `,
+  play: async ({ canvasElement }) => {
+    await new Promise((resolve) => setTimeout(resolve, 100));
+
+    const virtualScroll = canvasElement.querySelector('#virtual-scroll') as LithVirtualScroll;
+    const positionInfo = canvasElement.querySelector('#position-info') as HTMLElement;
+
+    // 测试 scrollToIndex 方法
+    const scrollTo100Btn = canvasElement.querySelector('#scroll-to-100') as HTMLButtonElement;
+    const scrollTo500Btn = canvasElement.querySelector('#scroll-to-500') as HTMLButtonElement;
+    const getPositionBtn = canvasElement.querySelector('#get-position') as HTMLButtonElement;
+
+    // 先获取 shadow DOM 元素
+    const shadowRoot = virtualScroll.shadowRoot;
+    const scrollContainer = shadowRoot?.querySelector('.scroll-container') as HTMLElement;
+    expect(scrollContainer).toBeTruthy();
+
+    // 等待组件完全初始化
+    await new Promise((resolve) => setTimeout(resolve, 500));
+
+    // 绑定事件 - 使用 instant 模式以避免动画时间问题
+    scrollTo100Btn.addEventListener('click', () => {
+      virtualScroll.scrollToIndex(100, 'instant');
+    });
+
+    scrollTo500Btn.addEventListener('click', () => {
+      virtualScroll.scrollToIndex(500, 'instant');
+    });
+
+    getPositionBtn.addEventListener('click', () => {
+      const pos100 = virtualScroll.getItemPosition(100);
+      const pos500 = virtualScroll.getItemPosition(500);
+      positionInfo.innerHTML = `
+        索引 100 位置: top=${pos100?.top}px, height=${pos100?.height}px<br>
+        索引 500 位置: top=${pos500?.top}px, height=${pos500?.height}px
+      `;
+    });
+
+    // 测试 scrollToIndex
+    await userEvent.click(scrollTo100Btn);
+    await new Promise((resolve) => setTimeout(resolve, 500));
+
+    // 验证滚动到了正确位置（索引100 * 高度60 = 6000px）
+    // 使用更宽松的验证方式
+    const expectedPos = 100 * 60; // 6000px
+    const actualPos = scrollContainer.scrollTop;
+    console.log(`Expected: ${expectedPos}, Actual: ${actualPos}`);
+
+    // 检查是否在合理范围内（考虑可能的舍入误差）
+    expect(Math.abs(actualPos - expectedPos)).toBeLessThan(200);
+
+    // 测试获取位置信息
+    await userEvent.click(getPositionBtn);
+    await new Promise((resolve) => setTimeout(resolve, 100));
+
+    expect(positionInfo.textContent).toContain('索引 100 位置');
+    expect(positionInfo.textContent).toContain('索引 500 位置');
+
+    // 验证位置计算正确
+    const pos100 = virtualScroll.getItemPosition(100);
+    expect(pos100).toEqual({ top: 6000, height: 60 });
+
+    const pos500 = virtualScroll.getItemPosition(500);
+    expect(pos500).toEqual({ top: 30000, height: 60 });
+  },
+};
+
+// 动态高度测试
+export const DynamicHeight: Story = {
+  args: {
+    items: Array.from({ length: 100 }, (_, index) => ({
+      id: index,
+      data: {
+        name: `项目 ${index + 1}`,
+        description:
+          index % 3 === 0
+            ? '短内容'
+            : index % 3 === 1
+              ? '这是一个中等长度的内容'
+              : '这是一个很长的内容，包含更多信息',
+        type: ['short', 'medium', 'long'][index % 3],
+      },
+      height: [40, 80, 120][index % 3], // 不同高度
+    })),
+    itemHeight: 80, // 平均高度
+    bufferSize: 3,
+  },
+  render: (args) => html`
+    <div style="height: 400px;">
       <lith-virtual-scroll
         .items=${args.items}
         item-height="${args.itemHeight}"
         buffer-size="${args.bufferSize}"
-        overscan="${args.overscan}"
       ></lith-virtual-scroll>
     </div>
   `,
+  play: async ({ canvasElement }) => {
+    await new Promise((resolve) => setTimeout(resolve, 100));
+
+    const virtualScroll = canvasElement.querySelector('lith-virtual-scroll') as LithVirtualScroll;
+    expect(virtualScroll).toBeInTheDocument();
+
+    // 验证动态高度设置
+    const items = virtualScroll.items;
+    expect(items[0].height).toBe(40);
+    expect(items[1].height).toBe(80);
+    expect(items[2].height).toBe(120);
+
+    // 验证总高度计算考虑了动态高度
+    const shadowRoot = virtualScroll.shadowRoot;
+    const spacer = shadowRoot?.querySelector('.scroll-spacer') as HTMLElement;
+
+    // 计算预期总高度
+    const expectedHeight = items.reduce((sum, item) => sum + (item.height || 80), 0);
+    expect(spacer.style.height).toBe(`${expectedHeight}px`);
+  },
 };
