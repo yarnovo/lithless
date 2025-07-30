@@ -123,7 +123,7 @@ lithless/
   - Toast 组件 (`lith-toast` 和 `lith-toast-container`) - 轻量级消息提示
   - Notification 组件 (`lith-notification`) - 通知提示组件
 
-### 分阶段实现计划（2025年更新版）
+### 分阶段实现计划（2025年7月31日更新版 - 基于 shadcn/ui 50+ 组件对标）
 
 #### ✅ 第一阶段 (MVP) - 基础表单组件【已完成】
 - [x] Button - 基础按钮组件
@@ -136,15 +136,18 @@ lithless/
 - [x] Combobox - 组合框（可搜索下拉）
 
 #### ✅ 第三阶段 - 基础架构组件【已完成】
-- [x] VirtualScroll - 虚拟滚动容器（2025-07-30 完成）
+- [x] VirtualScroll - 虚拟滚容器（2025-07-30 完成）
 - [x] Popover - 弹出框组件（其他浮层组件的基础）✅
 - [x] Portal - 传送门组件（处理 z-index 和定位）✅ (2025-07-30 完成)
 
-#### ✅ 第四阶段 - 交互反馈组件【已完成】
+#### ✅ 第四阶段 - 交互反馈组件【部分完成】
 - [x] Modal/Dialog - 模态框组件 ✅ (2025-07-30 完成)
 - [x] Tooltip - 工具提示组件 ✅ (2025-07-30 完成)
 - [x] Toast/Notification - 通知提示组件 ✅
-- [ ] Progress - 进度条组件
+- [ ] **Progress** - 进度条组件 (对标 shadcn/ui Progress)
+- [ ] **Alert** - 警告提示组件 (对标 shadcn/ui Alert)
+- [ ] **Alert Dialog** - 警告对话框 (基于 Modal 扩展)
+- [ ] **Skeleton** - 骨架屏组件 (对标 shadcn/ui Skeleton)
 
 #### ✅ 第五阶段 - 菜单导航组件【已完成】
 - [x] ContextMenu - 右键菜单组件（基于 Popover）✅
@@ -153,41 +156,150 @@ lithless/
 - [x] MenuBar - 菜单栏组件 ✅
 - [x] Menu/MenuItem - 基础菜单组件（已重构）✅
 
-#### 📋 第六阶段 - 导航辅助组件
-- [ ] Tabs - 标签页组件
-- [ ] Breadcrumb - 面包屑导航
+#### 📋 第六阶段 - 导航辅助组件【shadcn/ui 对标优先级】
+- [ ] **Tabs** - 标签页组件 (对标 shadcn/ui Tabs，高优先级)
+- [ ] **Breadcrumb** - 面包屑导航 (对标 shadcn/ui Breadcrumb)
+- [ ] **Pagination** - 分页组件 (对标 shadcn/ui Pagination)
+- [ ] **Command** - 命令面板组件 (对标 shadcn/ui Command)
+- [ ] **Sidebar** - 侧边栏组件 (对标 shadcn/ui Sidebar)
 
-#### 📋 第七阶段 - 数据展示组件
-- [ ] Table - 表格组件（基于 VirtualScroll2DCore）
-- [ ] Tree - 树形组件
-- [ ] List - 列表组件（支持虚拟滚动）
-- [ ] Accordion - 折叠面板
+#### 📋 第七阶段 - 数据展示组件【重点对标 shadcn/ui】
+- [ ] **Table** - 表格组件 (对标 shadcn/ui Table/Data Table，基于 VirtualScroll2DCore)
+- [ ] **Card** - 卡片组件 (对标 shadcn/ui Card，高优先级)
+- [ ] **Accordion** - 折叠面板 (对标 shadcn/ui Accordion，高优先级)
+- [ ] **Collapsible** - 可折叠组件 (对标 shadcn/ui Collapsible)
+- [ ] **Separator** - 分割线 (对标 shadcn/ui Separator)
+- [ ] **ScrollArea** - 滚动区域 (对标 shadcn/ui Scroll-area)
+- [ ] **Resizable** - 可调整大小面板 (对标 shadcn/ui Resizable)
+- [ ] **Avatar** - 头像组件 (对标 shadcn/ui Avatar)
+- [ ] **Badge** - 徽标组件 (对标 shadcn/ui Badge)
+- [ ] **AspectRatio** - 宽高比容器 (对标 shadcn/ui Aspect Ratio)
 
-#### 📋 第八阶段 - 高级输入组件
-- [ ] Slider - 滑块组件
-- [ ] DatePicker - 日期选择器
-- [ ] TimePicker - 时间选择器
-- [ ] ColorPicker - 颜色选择器
-- [ ] Upload - 文件上传组件
+#### 📋 第八阶段 - 高级输入组件【shadcn/ui 完整对标】
+- [ ] **Input** - 输入框组件 (对标 shadcn/ui Input，基础组件)
+- [ ] **Textarea** - 文本域组件 (对标 shadcn/ui Textarea)
+- [ ] **Label** - 标签组件 (对标 shadcn/ui Label)
+- [ ] **Slider** - 滑块组件 (对标 shadcn/ui Slider)
+- [ ] **Toggle** - 切换按钮 (对标 shadcn/ui Toggle)
+- [ ] **ToggleGroup** - 切换按钮组 (对标 shadcn/ui Toggle Group)
+- [ ] **Calendar** - 日历组件 (对标 shadcn/ui Calendar)
+- [ ] **DatePicker** - 日期选择器 (对标 shadcn/ui Date Picker)
+- [ ] **InputOTP** - OTP 输入组件 (对标 shadcn/ui Input OTP)
+- [ ] **Form** - 表单组件 (对标 shadcn/ui React Hook Form)
 
-#### 📋 第九阶段 - 布局和实用组件
-- [ ] Layout - 布局组件
-- [ ] Grid - 网格系统
-- [ ] Divider - 分割线
-- [ ] Avatar - 头像组件
-- [ ] Badge - 徽标组件
-- [ ] Tag - 标签组件
+#### 📋 第九阶段 - 高级组件与特效【shadcn/ui 高级特性】
+- [ ] **Chart** - 图表组件 (对标 shadcn/ui Chart)
+- [ ] **Carousel** - 轮播图组件 (对标 shadcn/ui Carousel)
+- [ ] **HoverCard** - 悬停卡片 (对标 shadcn/ui Hover Card，基于 Popover)
+- [ ] **Sheet** - 抽屉组件 (对标 shadcn/ui Sheet)
+- [ ] **Drawer** - 抽屉组件 (对标 shadcn/ui Drawer，与 Sheet 类似)
+- [ ] **Typography** - 排版组件 (对标 shadcn/ui Typography)
+- [ ] **Sonner** - 高级通知组件 (对标 shadcn/ui Sonner)
+
+### 组件库对标进度总览
+
+#### 🎯 双重对标策略说明
+我们的组件库采用双重对标策略：
+1. **shadcn/ui 对标** - 确保完整的用户界面组件生态
+2. **Radix UI 对标** - 保证底层无头组件的专业级实现
+
+#### 📊 shadcn/ui 对标统计 (截至 2025-07-31)
+- **已完成**: 24 个组件 ✅
+- **shadcn/ui 总数**: 50+ 个组件  
+- **完成率**: 约 48%
+- **缺少核心组件**: 26+ 个
+
+#### 📊 Radix UI Primitives 对标统计 (截至 2025-07-31)
+- **已完成**: 11 个组件 ✅
+- **Radix UI 总数**: 25 个核心组件
+- **完成率**: 44%
+- **缺少核心组件**: 14 个
+
+#### ✅ 已对标完成的 Radix UI Primitives (11个)
+1. **@radix-ui/react-checkbox** ✅ (`lith-checkbox`)
+2. **@radix-ui/react-context-menu** ✅ (`lith-context-menu`)
+3. **@radix-ui/react-dialog** ✅ (`lith-modal`)
+4. **@radix-ui/react-dropdown-menu** ✅ (`lith-dropdown-menu`)
+5. **@radix-ui/react-menubar** ✅ (`lith-menu-bar`)
+6. **@radix-ui/react-navigation-menu** ✅ (`lith-navigation-menu`)
+7. **@radix-ui/react-popover** ✅ (`lith-popover`)
+8. **@radix-ui/react-radio-group** ✅ (`lith-radio-group`)
+9. **@radix-ui/react-select** ✅ (`lith-select`)
+10. **@radix-ui/react-switch** ✅ (`lith-switch`)
+11. **@radix-ui/react-toast** ✅ (`lith-toast`)
+12. **@radix-ui/react-tooltip** ✅ (`lith-tooltip`)
+
+#### ⚡ 缺失的高优先级 Radix UI Primitives (14个)
+1. **@radix-ui/react-accordion** - 折叠面板 (shadcn/ui Accordion)
+2. **@radix-ui/react-alert-dialog** - 警告对话框 (shadcn/ui Alert Dialog)
+3. **@radix-ui/react-avatar** - 头像组件 (shadcn/ui Avatar)
+4. **@radix-ui/react-collapsible** - 可折叠组件 (shadcn/ui Collapsible)
+5. **@radix-ui/react-form** - 表单组件 (shadcn/ui Form)
+6. **@radix-ui/react-hover-card** - 悬停卡片 (shadcn/ui Hover Card)
+7. **@radix-ui/react-label** - 标签组件 (shadcn/ui Label) 🔥
+8. **@radix-ui/react-progress** - 进度条 (shadcn/ui Progress) 🔥
+9. **@radix-ui/react-scroll-area** - 滚动区域 (shadcn/ui Scroll Area)
+10. **@radix-ui/react-separator** - 分割线 (shadcn/ui Separator) 🔥
+11. **@radix-ui/react-slider** - 滑块组件 (shadcn/ui Slider)
+12. **@radix-ui/react-tabs** - 标签页 (shadcn/ui Tabs) 🔥
+13. **@radix-ui/react-toggle** - 切换按钮 (shadcn/ui Toggle)
+
+#### ✅ shadcn/ui 独有组件 (我们已实现，但 Radix UI 无对应组件)
+1. **Button** ✅ (`lith-button`) - 基础按钮
+2. **Combobox** ✅ (`lith-combobox`) - 组合框
+
+#### ⏳ 综合优先级最高的缺失组件 (基于 Radix UI + shadcn/ui 双重对标)
+
+**🔥 超高优先级 (立即实现)**
+1. **Label** - @radix-ui/react-label (表单可访问性基础) 
+2. **Tabs** - @radix-ui/react-tabs (导航核心组件)
+3. **Progress** - @radix-ui/react-progress (反馈基础组件)  
+4. **Separator** - @radix-ui/react-separator (布局基础组件)
+
+**⚡ 高优先级 (2025年8月)**
+5. **Input** - shadcn/ui 独有 (表单基础，无 Radix UI 对应)
+6. **Textarea** - shadcn/ui 独有 (表单基础，无 Radix UI 对应)
+7. **Accordion** - @radix-ui/react-accordion (数据展示核心)
+8. **Alert** - shadcn/ui 独有 (反馈基础，无 Radix UI 对应)
+
+**📋 中等优先级 (2025年9月)**
+9. **Card** - shadcn/ui 独有 (布局基础，无 Radix UI 对应)
+10. **Avatar** - @radix-ui/react-avatar (用户界面常用)
+11. **Toggle** - @radix-ui/react-toggle (表单扩展)
+12. **Slider** - @radix-ui/react-slider (输入控件)
+
+#### 🎯 下一阶段重点目标 (2025年8月)
+- **目标**: 完成 Radix UI 核心缺失组件 (Label, Tabs, Progress, Separator)
+- **Radix UI 完成率提升**: 44% → 60%
+- **shadcn/ui 完成率提升**: 48% → 56%
+- **优势**: 优先实现有 Radix UI 标准的组件，确保专业级无头实现
 
 ### 技术债务和重构计划
-- **表单验证** - 为所有表单组件添加统一的验证机制
-- **主题系统** - 实现 CSS 变量主题系统
+- **表单验证** - 为所有表单组件添加统一的验证机制 (结合 Form 组件)
+- **主题系统** - 实现 CSS 变量主题系统 (参考 shadcn/ui 的主题机制)
 - **文档完善** - 为每个组件编写详细的 API 文档和使用指南
 - **性能优化** - 优化大数据量场景下的渲染性能
+- **可访问性提升** - 对标 shadcn/ui 的 ARIA 实现标准
 
-### 优先级说明
-1. **常用组件优先** - Table、Tooltip、Toast 等高频使用的组件将在靠前的阶段实现
-2. **渐进式增强** - 先实现基础功能，后续版本再添加高级特性
-3. **用户反馈驱动** - 根据用户需求调整组件开发优先级
+### 双重对标策略优势与挑战
+
+#### ✅ 战略优势
+1. **专业级标准** - Radix UI 提供经过验证的无头组件交互模式
+2. **生态兼容性** - shadcn/ui 对标确保与主流生态的 API 一致性
+3. **可访问性保证** - Radix UI 的 WAI-ARIA 实现标准确保高质量的可访问性
+4. **Web Components 创新** - 用 Lit 3.0 实现 Radix UI 模式，填补市场空白
+
+#### ⚠️ 实现挑战
+1. **API 适配** - 需要将 React 特定的 Radix UI API 适配到 Web Components
+2. **状态管理** - Radix UI 的复合组件模式需要在 Web Components 中重新设计
+3. **事件处理** - React 的合成事件需要转换为原生 DOM 事件
+4. **类型定义** - 需要为 Web Components 重新定义 TypeScript 类型
+
+#### 🎯 优先级调整说明 (基于双重对标)
+1. **Radix UI 优先** - 有 Radix UI 对应的组件优先实现，确保专业级质量
+2. **shadcn/ui 补充** - shadcn/ui 独有组件作为生态补充
+3. **核心组件优先** - Label、Tabs 等基础组件优先于装饰性组件
+4. **开发者体验** - 提供与两个生态系统都兼容的 API 设计
 
 ## 质量保证与测试
 

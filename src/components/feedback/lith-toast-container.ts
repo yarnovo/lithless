@@ -1,7 +1,8 @@
-import { LitElement, html, css, PropertyValues } from 'lit';
+import { LitElement, html, css, PropertyValues, nothing } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { toastManager, type Toast, type ToastPosition } from '../../core/toast-manager.js';
-import '../feedback/lith-portal.js';
+import './lith-portal.js';
+import './lith-toast.js';
 
 /**
  * A container component that manages and displays toast notifications
@@ -116,7 +117,10 @@ export class LithToastContainer extends LitElement {
     super.connectedCallback();
     // Subscribe to toast manager
     this.unsubscribe = toastManager.subscribe((toasts) => {
-      this.toasts = toasts;
+      // Force update for array changes
+      const oldToasts = this.toasts;
+      this.toasts = [...toasts];
+      this.requestUpdate('toasts', oldToasts);
     });
   }
 
@@ -149,7 +153,7 @@ export class LithToastContainer extends LitElement {
       <div part="container" class="toast-container">
         ${positions.map((position) => {
           const positionToasts = this.getToastsForPosition(position);
-          if (positionToasts.length === 0) return null;
+          if (positionToasts.length === 0) return nothing;
 
           return html`
             <div

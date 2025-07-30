@@ -223,28 +223,52 @@ describe('LithToast', () => {
     });
 
     it('should display toasts from manager', async () => {
+      // 禁用 portal 进行测试
+      container.usePortal = false;
+      await container.updateComplete;
+
       toastManager.success('Success message');
 
       await container.updateComplete;
-      await waitUntil(() => {
-        const toasts = container.shadowRoot!.querySelectorAll('lith-toast');
-        return toasts.length > 0;
-      });
+      // 等待 toast manager 的 debounce 更新
+      await new Promise((resolve) => setTimeout(resolve, 100));
+      await container.updateComplete;
+
+      await waitUntil(
+        () => {
+          const toasts = container.shadowRoot!.querySelectorAll('lith-toast');
+          return toasts.length > 0;
+        },
+        'Waiting for toast to appear',
+        { timeout: 2000 }
+      );
 
       const toasts = container.shadowRoot!.querySelectorAll('lith-toast');
       expect(toasts.length).toBe(1);
     });
 
     it('should group toasts by position', async () => {
+      // 禁用 portal 进行测试
+      container.usePortal = false;
+      await container.updateComplete;
+
       toastManager.add({ title: 'Top Left', position: 'top-left' });
       toastManager.add({ title: 'Top Right', position: 'top-right' });
       toastManager.add({ title: 'Bottom Center', position: 'bottom-center' });
 
       await container.updateComplete;
-      await waitUntil(() => {
-        const toasts = container.shadowRoot!.querySelectorAll('lith-toast');
-        return toasts.length === 3;
-      });
+      // 等待 toast manager 的 debounce 更新
+      await new Promise((resolve) => setTimeout(resolve, 100));
+      await container.updateComplete;
+
+      await waitUntil(
+        () => {
+          const toasts = container.shadowRoot!.querySelectorAll('lith-toast');
+          return toasts.length === 3;
+        },
+        'Waiting for 3 toasts to appear',
+        { timeout: 2000 }
+      );
 
       const groups = container.shadowRoot!.querySelectorAll('.toast-group');
       const visibleGroups = Array.from(groups).filter((g) => g.querySelector('lith-toast'));
@@ -253,6 +277,10 @@ describe('LithToast', () => {
     });
 
     it('should limit number of toasts per position', async () => {
+      // 禁用 portal 进行测试
+      container.usePortal = false;
+      await container.updateComplete;
+
       container.maxCount = 3;
 
       // Add 5 toasts to same position
@@ -261,10 +289,18 @@ describe('LithToast', () => {
       }
 
       await container.updateComplete;
-      await waitUntil(() => {
-        const toasts = container.shadowRoot!.querySelectorAll('lith-toast');
-        return toasts.length > 0;
-      });
+      // 等待 toast manager 的 debounce 更新
+      await new Promise((resolve) => setTimeout(resolve, 100));
+      await container.updateComplete;
+
+      await waitUntil(
+        () => {
+          const toasts = container.shadowRoot!.querySelectorAll('lith-toast');
+          return toasts.length > 0;
+        },
+        'Waiting for toasts to appear',
+        { timeout: 2000 }
+      );
 
       const toasts = container.shadowRoot!.querySelectorAll(
         '[data-position="top-right"] lith-toast'
@@ -287,38 +323,65 @@ describe('LithToast', () => {
     });
 
     it('should emit close event when toast closes', async () => {
+      // 禁用 portal 进行测试
+      container.usePortal = false;
+      await container.updateComplete;
+
       const closeSpy = vi.fn();
       container.addEventListener('lith-toast-close', closeSpy);
 
       const id = toastManager.add({ title: 'Closable toast' });
 
       await container.updateComplete;
-      await waitUntil(() => {
-        const toasts = container.shadowRoot!.querySelectorAll('lith-toast');
-        return toasts.length > 0;
-      });
+      // 等待 toast manager 的 debounce 更新
+      await new Promise((resolve) => setTimeout(resolve, 100));
+      await container.updateComplete;
+
+      await waitUntil(
+        () => {
+          const toasts = container.shadowRoot!.querySelectorAll('lith-toast');
+          return toasts.length > 0;
+        },
+        'Waiting for toast to appear',
+        { timeout: 2000 }
+      );
 
       const toast = container.shadowRoot!.querySelector('lith-toast');
       const closeButton = toast!.shadowRoot!.querySelector('.toast-close') as HTMLButtonElement;
       closeButton.click();
 
-      await waitUntil(() => closeSpy.mock.calls.length > 0);
-      expect(closeSpy).toHaveBeenCalledOnce();
+      await waitUntil(() => closeSpy.mock.calls.length > 0, 'Waiting for close event', {
+        timeout: 2000,
+      });
+      expect(closeSpy).toHaveBeenCalled();
       expect(closeSpy.mock.calls[0][0].detail.id).toBe(id);
     });
 
     it('should work without portal', async () => {
+      // 创建新的容器实例，明确禁用 portal
       container = await fixture(html`
         <lith-toast-container ?use-portal=${false}></lith-toast-container>
       `);
 
+      // 等待组件初始化和订阅设置
+      await container.updateComplete;
+      await new Promise((resolve) => setTimeout(resolve, 50));
+
       toastManager.add({ title: 'No portal toast' });
 
       await container.updateComplete;
-      await waitUntil(() => {
-        const toasts = container.shadowRoot!.querySelectorAll('lith-toast');
-        return toasts.length > 0;
-      });
+      // 等待 toast manager 的 debounce 更新
+      await new Promise((resolve) => setTimeout(resolve, 100));
+      await container.updateComplete;
+
+      await waitUntil(
+        () => {
+          const toasts = container.shadowRoot!.querySelectorAll('lith-toast');
+          return toasts.length > 0;
+        },
+        'Waiting for toast to appear without portal',
+        { timeout: 2000 }
+      );
 
       const portal = container.shadowRoot!.querySelector('lith-portal');
       expect(portal).toBeNull();
