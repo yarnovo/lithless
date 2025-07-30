@@ -210,25 +210,37 @@ lithless/
 - 持续改进组件 API 设计
 - 收集用户反馈并优化使用体验
 
-### JSDOM 测试环境注意事项
-1. **ElementInternals API 兼容性**:
-   - JSDOM 不完全支持 ElementInternals API
-   - 在测试环境中需要使用 try-catch 包裹所有 ElementInternals 属性访问
-   - 对于依赖 ElementInternals 的测试，可能需要从单元测试中排除或使用 `it.skip`
-   - JSDOM 可能提供部分 ElementInternals 实现但功能不完整，导致 mock 失效
+### 测试环境最佳实践
+
+1. **使用社区解决方案**:
+   - **element-internals-polyfill**: 提供完整的 ElementInternals API polyfill
+   - **happy-dom**: 比 JSDOM 更好的 Web Components 支持，替代 JSDOM
+   - 这两个工具结合使用，让测试环境更接近真实浏览器
+
+2. **测试配置更新**:
+   ```typescript
+   // test-setup.ts
+   import '@testing-library/jest-dom/vitest';
+   import 'element-internals-polyfill';  // 添加 polyfill
    
-2. **错误处理最佳实践**:
+   // vite.config.ts
+   test: {
+     environment: 'happy-dom',  // 使用 happy-dom 替代 jsdom
+   }
+   ```
+
+3. **错误处理最佳实践**:
    - 使用 `} catch {` 而不是 `} catch (e) {` 避免未使用的变量警告
    - TypeScript 类型转换时使用 `as unknown as Type` 处理类型不兼容问题
 
-3. **测试配置**:
-   - 在 vite.config.ts 中可以排除特定测试文件
-   - 使用 test-setup.ts 提供必要的 mock 实现
-   - 对于表单验证相关的测试，建议在真实浏览器环境（Storybook）中测试
+4. **Web Components 测试注意事项**:
+   - slot change 事件可能需要手动触发
+   - 键盘事件测试需要确保元素已聚焦
+   - 等待所有子组件的 updateComplete
 
-4. **测试策略**:
-   - 单元测试（JSDOM）：测试基本组件行为、事件触发、状态管理
-   - 集成测试（Storybook + Playwright）：测试表单验证、ElementInternals API、复杂交互
+5. **测试策略**:
+   - 单元测试（happy-dom）：测试组件行为、事件、表单集成
+   - 集成测试（Storybook + Playwright）：测试复杂交互、视觉效果
 
 ---
 

@@ -101,9 +101,8 @@ describe('LithRadio', () => {
     expect(element.checked).toBe(false);
   });
 
-  it.skip('应该正确处理必填验证', async () => {
-    // 跳过此测试，因为 JSDOM 不完全支持 ElementInternals API
-    // 这个功能在真实浏览器环境（Storybook）中已经测试
+  it('应该正确处理必填验证', async () => {
+    // 使用 element-internals-polyfill，现在应该可以工作了
 
     // 测试初始状态（非必填）
     expect(element.checkValidity()).toBe(true);

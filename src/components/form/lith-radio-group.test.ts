@@ -108,9 +108,8 @@ describe('LithRadioGroup', () => {
     expect(enabledValues).toEqual(['option1', 'option3']);
   });
 
-  it.skip('应该正确处理必填验证', async () => {
-    // 跳过此测试，因为 JSDOM 不完全支持 ElementInternals API
-    // 这个功能在真实浏览器环境（Storybook）中已经测试
+  it('应该正确处理必填验证', async () => {
+    // 使用 element-internals-polyfill，现在应该可以工作了
 
     // 测试初始状态（非必填）
     expect(element.checkValidity()).toBe(true);
@@ -182,8 +181,24 @@ describe('LithRadioGroup - 键盘导航', () => {
   });
 
   it('应该正确处理方向键导航', async () => {
+    // 等待所有元素更新完成
+    await element.updateComplete;
+    await Promise.all([...radios].map((r) => r.updateComplete));
+
+    // 手动触发 slot change 事件以确保事件监听器被设置
+    const slot = element.shadowRoot?.querySelector('slot');
+    slot?.dispatchEvent(new Event('slotchange'));
+    await element.updateComplete;
+
+    // 聚焦到 option2
+    radios[1].focus();
+
     // 模拟从option2开始按向下键
-    const keyEvent = new KeyboardEvent('keydown', { key: 'ArrowDown' });
+    const keyEvent = new KeyboardEvent('keydown', {
+      key: 'ArrowDown',
+      bubbles: true,
+      cancelable: true,
+    });
     radios[1].dispatchEvent(keyEvent);
     await element.updateComplete;
 
@@ -191,11 +206,27 @@ describe('LithRadioGroup - 键盘导航', () => {
   });
 
   it('应该跳过禁用的选项', async () => {
+    // 等待所有元素更新完成
+    await element.updateComplete;
+    await Promise.all([...radios].map((r) => r.updateComplete));
+
+    // 手动触发 slot change 事件以确保事件监听器被设置
+    const slot = element.shadowRoot?.querySelector('slot');
+    slot?.dispatchEvent(new Event('slotchange'));
+    await element.updateComplete;
+
     // 设置为option3，然后按向下键（应该跳过option4因为它被禁用）
     element.value = 'option3';
     await element.updateComplete;
 
-    const keyEvent = new KeyboardEvent('keydown', { key: 'ArrowDown' });
+    // 聚焦到 option3
+    radios[2].focus();
+
+    const keyEvent = new KeyboardEvent('keydown', {
+      key: 'ArrowDown',
+      bubbles: true,
+      cancelable: true,
+    });
     radios[2].dispatchEvent(keyEvent);
     await element.updateComplete;
 
