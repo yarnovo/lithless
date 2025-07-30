@@ -77,10 +77,11 @@ lithless/
   - 使用分号
 
 ### 脚本命令
-- `npm run dev` - 开发模式
+- `npm run dev` - 启动 Storybook 开发模式 (端口 6006)
+- `npm run demo` - 构建并启动 demo 预览服务器，会自动选择可用端口
 - `npm run build` - 构建生产版本
 - `npm run check` - 完整检查 (lint + typecheck + test)
-- `npm run test` - 运行测试
+- `npm run test` - 运行测试 (包括 Storybook 测试)
 - `npm run storybook` - 启动 Storybook 文档
 
 ## 组件命名规范

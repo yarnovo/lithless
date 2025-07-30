@@ -13,14 +13,16 @@ export default tseslint.config(
       'storybook-static/**',
       '*.config.js',
       '*.config.ts',
-      '.storybook/**'
+      '*.config.cjs',
+      '.storybook/**',
+      'demo/static/**'
     ]
   },
   js.configs.recommended,
   ...tseslint.configs.recommended,
   prettier,
   {
-    files: ['**/*.{js,mjs,cjs,ts,mts,cts}'],
+    files: ['**/*.{js,mjs,ts,mts,cts}'],
     languageOptions: {
       globals: globals.browser
     },
@@ -32,6 +34,21 @@ export default tseslint.config(
       '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
       '@typescript-eslint/no-explicit-any': 'warn',
       '@typescript-eslint/explicit-module-boundary-types': 'off'
+    }
+  },
+  {
+    files: ['**/*.cjs'],
+    languageOptions: {
+      globals: {
+        ...globals.node,
+        module: 'readonly',
+        require: 'readonly',
+        __dirname: 'readonly',
+        __filename: 'readonly'
+      }
+    },
+    rules: {
+      '@typescript-eslint/no-var-requires': 'off'
     }
   }
 );

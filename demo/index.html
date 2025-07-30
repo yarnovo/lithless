@@ -45,7 +45,9 @@
         
         /* 防止 FOUC - 隐藏未定义的自定义元素 */
         lith-button:not(:defined),
-        lith-checkbox:not(:defined) {
+        lith-checkbox:not(:defined),
+        lith-radio-group:not(:defined),
+        lith-radio:not(:defined) {
             visibility: hidden;
             display: inline-block;
             /* 保持布局空间，防止页面跳动 */
@@ -55,7 +57,9 @@
         
         /* 组件定义后的淡入效果 */
         lith-button:defined,
-        lith-checkbox:defined {
+        lith-checkbox:defined,
+        lith-radio-group:defined,
+        lith-radio:defined {
             animation: fadeIn 0.2s ease-in;
         }
         
@@ -106,6 +110,50 @@
             outline: 2px solid #007bff;
             outline-offset: 2px;
         }
+        
+        /* Radio Group styling */
+        lith-radio-group {
+            display: block;
+            margin-bottom: 15px;
+        }
+        
+        lith-radio::part(control) {
+            border: 2px solid #ccc;
+            border-radius: 50%;
+            background: white;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 200ms ease;
+        }
+        
+        lith-radio[checked]::part(control) {
+            border-color: #007bff;
+        }
+        
+        lith-radio[checked]::part(control)::after {
+            content: '';
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #007bff;
+        }
+        
+        lith-radio[disabled] {
+            opacity: 0.5;
+        }
+        
+        lith-radio:focus-within::part(control) {
+            outline: 2px solid #007bff;
+            outline-offset: 2px;
+        }
+        
+        lith-radio-group[orientation="horizontal"] {
+            display: flex;
+            gap: 20px;
+        }
     </style>
 </head>
 <body>
@@ -141,6 +189,31 @@
         </div>
         
         <div class="demo-section">
+            <h2>单选框组组件</h2>
+            <div class="demo-item">
+                <lith-radio-group label="选择尺寸" name="size" value="medium">
+                    <lith-radio value="small">小号</lith-radio>
+                    <lith-radio value="medium">中号</lith-radio>
+                    <lith-radio value="large">大号</lith-radio>
+                </lith-radio-group>
+            </div>
+            <div class="demo-item">
+                <lith-radio-group label="选择颜色" name="color" orientation="horizontal">
+                    <lith-radio value="red">红色</lith-radio>
+                    <lith-radio value="blue">蓝色</lith-radio>
+                    <lith-radio value="green">绿色</lith-radio>
+                </lith-radio-group>
+            </div>
+            <div class="demo-item">
+                <lith-radio-group label="禁用状态" name="disabled-demo" disabled value="option1">
+                    <lith-radio value="option1">选项 1</lith-radio>
+                    <lith-radio value="option2">选项 2</lith-radio>
+                    <lith-radio value="option3">选项 3</lith-radio>
+                </lith-radio-group>
+            </div>
+        </div>
+        
+        <div class="demo-section">
             <h2>表单示例</h2>
             <form id="demo-form">
                 <div class="demo-item">
@@ -151,6 +224,13 @@
                 </div>
                 <div class="demo-item">
                     <lith-checkbox name="notifications" value="enabled" checked>启用通知</lith-checkbox>
+                </div>
+                <div class="demo-item">
+                    <lith-radio-group label="配送方式" name="delivery" required>
+                        <lith-radio value="standard">标准配送</lith-radio>
+                        <lith-radio value="express">快速配送</lith-radio>
+                        <lith-radio value="pickup">自提</lith-radio>
+                    </lith-radio-group>
                 </div>
                 <div class="demo-item" style="margin-top: 20px;">
                     <button type="submit">提交</button>
@@ -175,7 +255,7 @@
     }
     </script>
     
-    <script type="module" src="../dist/index.js"></script>
+    <script type="module" src="./static/index.js"></script>
     <script>
         // Button events
         document.addEventListener('lith-click', (e) => {
@@ -186,6 +266,8 @@
         document.addEventListener('lith-change', (e) => {
             if (e.target.tagName === 'LITH-CHECKBOX') {
                 console.log('Checkbox changed:', e.target, e.detail);
+            } else if (e.target.tagName === 'LITH-RADIO-GROUP') {
+                console.log('Radio group changed:', e.target, e.detail);
             }
         });
         

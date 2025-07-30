@@ -8,6 +8,9 @@ yarn-error.log*
 dist/
 build/
 
+# Demo static files (copied from dist)
+demo/static/
+
 # Environment files
 .env
 .env.local
