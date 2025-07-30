@@ -112,7 +112,7 @@ describe('LithRadio', () => {
 
   it('应该触发change事件', async () => {
     let changeEventFired = false;
-    let eventDetail: any = null;
+    let eventDetail: { checked: boolean; value: string | null } | null = null;
 
     element.addEventListener('lith-change', (e: Event) => {
       changeEventFired = true;
@@ -129,7 +129,7 @@ describe('LithRadio', () => {
 
   it('应该触发input事件', async () => {
     let inputEventFired = false;
-    let eventDetail: any = null;
+    let eventDetail: { checked: boolean; value: string | null } | null = null;
 
     element.addEventListener('lith-input', (e: Event) => {
       inputEventFired = true;

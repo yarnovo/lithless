@@ -139,7 +139,7 @@ describe('LithRadioGroup', () => {
 
   it('应该触发change事件', async () => {
     let changeEventFired = false;
-    let eventDetail: any = null;
+    let eventDetail: { value: string | null; previousValue: string | null } | null = null;
 
     element.addEventListener('lith-change', (e: Event) => {
       changeEventFired = true;
