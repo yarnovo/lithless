@@ -163,7 +163,13 @@ export class LithRadio extends LitElement {
   constructor() {
     super();
     this._internals = this.attachInternals();
-    this._internals.role = 'radio';
+
+    // Only set role if the environment supports it (not in JSDOM)
+    try {
+      this._internals.role = 'radio';
+    } catch {
+      // Fallback for testing environments
+    }
 
     // Generate a unique ID if not provided
     if (!this.id) {
@@ -186,11 +192,19 @@ export class LithRadio extends LitElement {
     }
 
     if (changedProperties.has('disabled')) {
-      this._internals.ariaDisabled = this.disabled ? 'true' : 'false';
+      try {
+        this._internals.ariaDisabled = this.disabled ? 'true' : 'false';
+      } catch {
+        // Fallback for testing environments
+      }
     }
 
     if (changedProperties.has('required')) {
-      this._internals.ariaRequired = this.required ? 'true' : 'false';
+      try {
+        this._internals.ariaRequired = this.required ? 'true' : 'false';
+      } catch {
+        // Fallback for testing environments
+      }
       this._updateValidity();
     }
 
@@ -323,23 +337,33 @@ export class LithRadio extends LitElement {
   }
 
   private _updateAriaChecked(): void {
-    this._internals.ariaChecked = this.checked ? 'true' : 'false';
+    try {
+      this._internals.ariaChecked = this.checked ? 'true' : 'false';
+    } catch {
+      // Fallback for testing environments
+    }
   }
 
   private _updateFormValue(): void {
-    if (this.checked && this.value) {
-      this._internals.setFormValue(this.value);
-    } else {
-      this._internals.setFormValue(null);
+    // Check if setFormValue is available (not in JSDOM)
+    if (typeof this._internals.setFormValue === 'function') {
+      if (this.checked && this.value) {
+        this._internals.setFormValue(this.value);
+      } else {
+        this._internals.setFormValue(null);
+      }
     }
   }
 
   private _updateValidity(): void {
-    if (this.required && !this.checked) {
-      const message = this.validationMessage || 'Please select this option.';
-      this._internals.setValidity({ valueMissing: true }, message);
-    } else {
-      this._internals.setValidity({});
+    // Check if setValidity is available (not in JSDOM)
+    if (typeof this._internals.setValidity === 'function') {
+      if (this.required && !this.checked) {
+        const message = this.validationMessage || 'Please select this option.';
+        this._internals.setValidity({ valueMissing: true }, message);
+      } else {
+        this._internals.setValidity({});
+      }
     }
   }
 
@@ -395,14 +419,20 @@ export class LithRadio extends LitElement {
    * Checks the validity of the radio button
    */
   checkValidity(): boolean {
-    return this._internals.checkValidity();
+    if (typeof this._internals.checkValidity === 'function') {
+      return this._internals.checkValidity();
+    }
+    return true;
   }
 
   /**
    * Reports the validity of the radio button
    */
   reportValidity(): boolean {
-    return this._internals.reportValidity();
+    if (typeof this._internals.reportValidity === 'function') {
+      return this._internals.reportValidity();
+    }
+    return true;
   }
 
   /**

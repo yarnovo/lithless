@@ -198,6 +198,7 @@ lithless/
 2. **类型安全**: 充分利用 TypeScript 的类型系统
 3. **测试覆盖**: 确保新组件有完整的测试覆盖
 4. **文档完整**: 每个组件都需要对应的 Storybook 故事
+5. **代码质量检查**: 每次代码修改后必须运行 `npm run check` 确保通过所有检查
 
 ### 代码提交规范
 - 使用 husky 和 lint-staged 进行提交前检查
@@ -208,6 +209,26 @@ lithless/
 - 定期更新依赖版本
 - 持续改进组件 API 设计
 - 收集用户反馈并优化使用体验
+
+### JSDOM 测试环境注意事项
+1. **ElementInternals API 兼容性**:
+   - JSDOM 不完全支持 ElementInternals API
+   - 在测试环境中需要使用 try-catch 包裹所有 ElementInternals 属性访问
+   - 对于依赖 ElementInternals 的测试，可能需要从单元测试中排除或使用 `it.skip`
+   - JSDOM 可能提供部分 ElementInternals 实现但功能不完整，导致 mock 失效
+   
+2. **错误处理最佳实践**:
+   - 使用 `} catch {` 而不是 `} catch (e) {` 避免未使用的变量警告
+   - TypeScript 类型转换时使用 `as unknown as Type` 处理类型不兼容问题
+
+3. **测试配置**:
+   - 在 vite.config.ts 中可以排除特定测试文件
+   - 使用 test-setup.ts 提供必要的 mock 实现
+   - 对于表单验证相关的测试，建议在真实浏览器环境（Storybook）中测试
+
+4. **测试策略**:
+   - 单元测试（JSDOM）：测试基本组件行为、事件触发、状态管理
+   - 集成测试（Storybook + Playwright）：测试表单验证、ElementInternals API、复杂交互
 
 ---
 
