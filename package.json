@@ -12,7 +12,8 @@
   "scripts": {
     "build": "tsc && vite build",
     "dev": "npm run pm2:start:dev && echo 'Storybook 已启动在 http://localhost:6006'",
-    "demo": "npm run build && cp -r dist/* demo/static/ && npm run pm2:start:demo && echo 'Demo 已启动在 http://localhost:3006'",
+    "demo": "npm run build && pm2 start ecosystem.config.cjs --only lithless-demo",
+    "demo:build": "npm run build && cd demo && vite build",
     "dev:stop": "pm2 stop lithless-storybook",
     "demo:stop": "pm2 stop lithless-demo",
     "pm2:start": "npm run build && pm2 start ecosystem.config.cjs",

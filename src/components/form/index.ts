@@ -14,3 +14,10 @@ export { LithSelect } from './lith-select.js';
 export type { SelectChangeDetail, SelectInputDetail } from './lith-select.js';
 
 export { LithOption } from './lith-option.js';
+
+export { LithCombobox } from './lith-combobox.js';
+export type {
+  ComboboxChangeDetail,
+  ComboboxInputDetail,
+  ComboboxFilterDetail,
+} from './lith-combobox.js';

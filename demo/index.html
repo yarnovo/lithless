@@ -50,7 +50,8 @@
         lith-radio:not(:defined),
         lith-switch:not(:defined),
         lith-select:not(:defined),
-        lith-option:not(:defined) {
+        lith-option:not(:defined),
+        lith-combobox:not(:defined) {
             visibility: hidden;
             display: inline-block;
             /* 保持布局空间，防止页面跳动 */
@@ -65,7 +66,8 @@
         lith-radio:defined,
         lith-switch:defined,
         lith-select:defined,
-        lith-option:defined {
+        lith-option:defined,
+        lith-combobox:defined {
             animation: fadeIn 0.2s ease-in;
         }
         
@@ -257,6 +259,71 @@
             color: #999;
             opacity: 0.6;
         }
+        
+        /* Combobox styles */
+        lith-combobox {
+            --lith-combobox-input-padding: 8px 12px;
+            --lith-combobox-input-gap: 8px;
+            --lith-combobox-listbox-offset: 4px;
+            --lith-combobox-listbox-max-height: 200px;
+            width: 200px;
+        }
+        
+        lith-combobox::part(input-container) {
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background: white;
+            min-height: 36px;
+            transition: border-color 200ms;
+        }
+        
+        lith-combobox::part(input-container):hover {
+            border-color: #007bff;
+        }
+        
+        lith-combobox:focus-within::part(input-container) {
+            border-color: #007bff;
+            box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+        }
+        
+        lith-combobox[disabled]::part(input-container) {
+            background: #f5f5f5;
+            opacity: 0.6;
+        }
+        
+        lith-combobox::part(input)::placeholder {
+            color: #999;
+        }
+        
+        lith-combobox::part(icon) {
+            color: #666;
+        }
+        
+        lith-combobox::part(listbox) {
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* Combobox option styles (similar to select options) */
+        lith-combobox lith-option:hover:not([disabled]) {
+            background-color: #f8f9fa;
+        }
+        
+        lith-combobox lith-option[selected] {
+            background-color: #e3f2fd;
+            color: #1976d2;
+        }
+        
+        lith-combobox lith-option.highlighted {
+            background-color: #e3f2fd;
+        }
+        
+        lith-combobox lith-option[disabled] {
+            color: #999;
+            opacity: 0.6;
+        }
     </style>
 </head>
 <body>
@@ -384,6 +451,77 @@
         </div>
         
         <div class="demo-section">
+            <h2>组合框组件</h2>
+            <div class="demo-item">
+                <lith-combobox placeholder="搜索水果...">
+                    <lith-option value="apple">苹果</lith-option>
+                    <lith-option value="banana">香蕉</lith-option>
+                    <lith-option value="cherry">樱桃</lith-option>
+                    <lith-option value="date">枣子</lith-option>
+                    <lith-option value="elderberry">接骨木莓</lith-option>
+                </lith-combobox>
+            </div>
+            <div class="demo-item">
+                <lith-combobox value="banana" input-value="香蕉" placeholder="已选中状态">
+                    <lith-option value="apple">苹果</lith-option>
+                    <lith-option value="banana">香蕉</lith-option>
+                    <lith-option value="cherry">樱桃</lith-option>
+                </lith-combobox>
+            </div>
+            <div class="demo-item">
+                <lith-combobox allow-custom placeholder="允许自定义值（可输入新值）">
+                    <lith-option value="javascript">JavaScript</lith-option>
+                    <lith-option value="python">Python</lith-option>
+                    <lith-option value="typescript">TypeScript</lith-option>
+                </lith-combobox>
+            </div>
+            <div class="demo-item">
+                <lith-combobox filter-mode="starts-with" placeholder="前缀匹配过滤">
+                    <lith-option value="apple">苹果</lith-option>
+                    <lith-option value="apricot">杏子</lith-option>
+                    <lith-option value="banana">香蕉</lith-option>
+                    <lith-option value="avocado">牛油果</lith-option>
+                </lith-combobox>
+            </div>
+            <div class="demo-item">
+                <lith-combobox disabled placeholder="禁用状态">
+                    <lith-option value="option1">选项 1</lith-option>
+                    <lith-option value="option2">选项 2</lith-option>
+                </lith-combobox>
+            </div>
+            <div class="demo-item">
+                <lith-combobox readonly value="readonly" input-value="只读状态" placeholder="只读状态">
+                    <lith-option value="readonly">只读状态</lith-option>
+                    <lith-option value="other">其他选项</lith-option>
+                </lith-combobox>
+            </div>
+            <div class="demo-item">
+                <lith-combobox placeholder="包含禁用选项">
+                    <lith-option value="available">可用</lith-option>
+                    <lith-option value="busy" disabled>忙碌（不可用）</lith-option>
+                    <lith-option value="away">离开</lith-option>
+                    <lith-option value="offline" disabled>离线（不可用）</lith-option>
+                </lith-combobox>
+            </div>
+            <div class="demo-item">
+                <lith-combobox placeholder="带图标选项">
+                    <lith-option value="design">
+                        <span slot="icon">🎨</span>
+                        设计
+                    </lith-option>
+                    <lith-option value="development">
+                        <span slot="icon">💻</span>
+                        开发
+                    </lith-option>
+                    <lith-option value="marketing">
+                        <span slot="icon">📈</span>
+                        市场
+                    </lith-option>
+                </lith-combobox>
+            </div>
+        </div>
+        
+        <div class="demo-section">
             <h2>表单示例</h2>
             <form id="demo-form">
                 <div class="demo-item">
@@ -423,6 +561,24 @@
                         <lith-option value="ja">日本語</lith-option>
                     </lith-select>
                 </div>
+                <div class="demo-item">
+                    <lith-combobox name="skill" required placeholder="选择或输入您的技能" allow-custom>
+                        <lith-option value="javascript">JavaScript</lith-option>
+                        <lith-option value="python">Python</lith-option>
+                        <lith-option value="react">React</lith-option>
+                        <lith-option value="vue">Vue.js</lith-option>
+                        <lith-option value="nodejs">Node.js</lith-option>
+                    </lith-combobox>
+                </div>
+                <div class="demo-item">
+                    <lith-combobox name="city" placeholder="选择城市">
+                        <lith-option value="beijing">北京</lith-option>
+                        <lith-option value="shanghai">上海</lith-option>
+                        <lith-option value="guangzhou">广州</lith-option>
+                        <lith-option value="shenzhen">深圳</lith-option>
+                        <lith-option value="hangzhou">杭州</lith-option>
+                    </lith-combobox>
+                </div>
                 <div class="demo-item" style="margin-top: 20px;">
                     <button type="submit">提交</button>
                     <button type="reset">重置</button>
@@ -446,7 +602,7 @@
     }
     </script>
     
-    <script type="module" src="./static/index.js"></script>
+    <script type="module" src="/dist/index.js"></script>
     <script>
         // Button events
         document.addEventListener('lith-click', (e) => {
@@ -463,6 +619,21 @@
                 console.log('Switch changed:', e.target, e.detail);
             } else if (e.target.tagName === 'LITH-SELECT') {
                 console.log('Select changed:', e.target, e.detail);
+            } else if (e.target.tagName === 'LITH-COMBOBOX') {
+                console.log('Combobox changed:', e.target, e.detail);
+            }
+        });
+        
+        // Combobox specific events
+        document.addEventListener('lith-input', (e) => {
+            if (e.target.tagName === 'LITH-COMBOBOX') {
+                console.log('Combobox input:', e.target, e.detail);
+            }
+        });
+        
+        document.addEventListener('lith-filter', (e) => {
+            if (e.target.tagName === 'LITH-COMBOBOX') {
+                console.log('Combobox filter:', e.target, e.detail);
             }
         });
         

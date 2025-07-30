@@ -30,6 +30,10 @@ if (!customElements.get('lith-option')) {
   import('./components/form/lith-option');
 }
 
+if (!customElements.get('lith-combobox')) {
+  import('./components/form/lith-combobox');
+}
+
 // 添加全局测试帮助方法
 declare global {
   interface Window {

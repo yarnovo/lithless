@@ -19,11 +19,11 @@ module.exports = {
     },
     {
       name: 'lithless-demo',
-      script: 'http-server',
-      args: 'demo -p 3006 -c-1',
-      cwd: '/home/yarnb/lithless',
+      script: 'npx',
+      args: 'vite',
+      cwd: '/home/yarnb/lithless/demo',
       env: {
-        NODE_ENV: 'production'
+        NODE_ENV: 'development'
       },
       log_file: './logs/demo.log',
       out_file: './logs/demo-out.log',
@@ -32,7 +32,7 @@ module.exports = {
       time: true,
       autorestart: true,
       max_restarts: 5,
-      min_uptime: '5s',
+      min_uptime: '10s',
       watch: false
     }
   ]
