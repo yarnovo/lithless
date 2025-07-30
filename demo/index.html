@@ -51,7 +51,9 @@
         lith-switch:not(:defined),
         lith-select:not(:defined),
         lith-option:not(:defined),
-        lith-combobox:not(:defined) {
+        lith-combobox:not(:defined),
+        lith-menu:not(:defined),
+        lith-menu-item:not(:defined) {
             visibility: hidden;
             display: inline-block;
             /* 保持布局空间，防止页面跳动 */
@@ -67,7 +69,9 @@
         lith-switch:defined,
         lith-select:defined,
         lith-option:defined,
-        lith-combobox:defined {
+        lith-combobox:defined,
+        lith-menu:defined,
+        lith-menu-item:defined {
             animation: fadeIn 0.2s ease-in;
         }
         
@@ -324,6 +328,63 @@
             color: #999;
             opacity: 0.6;
         }
+        
+        /* Menu styles */
+        lith-menu {
+            --lith-menu-trigger-padding: 8px 12px;
+            --lith-menu-trigger-gap: 8px;
+            --lith-menu-offset: 4px;
+            --lith-menu-max-height: 200px;
+            --lith-menu-z-index: 1000;
+        }
+        
+        lith-menu::part(trigger) {
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background: white;
+            min-height: 36px;
+            transition: border-color 200ms;
+            cursor: pointer;
+        }
+        
+        lith-menu::part(trigger):hover {
+            border-color: #007bff;
+        }
+        
+        lith-menu:focus-within::part(trigger) {
+            border-color: #007bff;
+            box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+        }
+        
+        lith-menu[disabled]::part(trigger) {
+            background: #f5f5f5;
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        lith-menu::part(icon) {
+            color: #666;
+        }
+        
+        lith-menu::part(menu) {
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+        
+        lith-menu-item:hover:not([disabled]) {
+            background-color: #f8f9fa;
+        }
+        
+        lith-menu-item.highlighted {
+            background-color: #e3f2fd;
+        }
+        
+        lith-menu-item[disabled] {
+            color: #999;
+            opacity: 0.6;
+        }
     </style>
 </head>
 <body>
@@ -522,6 +583,71 @@
         </div>
         
         <div class="demo-section">
+            <h2>下拉菜单组件</h2>
+            <div class="demo-item">
+                <lith-menu>
+                    <span slot="trigger">操作菜单</span>
+                    <lith-menu-item value="edit">编辑</lith-menu-item>
+                    <lith-menu-item value="copy">复制</lith-menu-item>
+                    <lith-menu-item value="delete">删除</lith-menu-item>
+                </lith-menu>
+            </div>
+            <div class="demo-item">
+                <lith-menu>
+                    <span slot="trigger">带图标菜单</span>
+                    <span slot="trigger-icon">▼</span>
+                    <lith-menu-item value="profile">
+                        <span slot="icon">👤</span>
+                        个人资料
+                    </lith-menu-item>
+                    <lith-menu-item value="settings">
+                        <span slot="icon">⚙️</span>
+                        设置
+                    </lith-menu-item>
+                    <lith-menu-item value="logout">
+                        <span slot="icon">🚪</span>
+                        退出登录
+                    </lith-menu-item>
+                </lith-menu>
+            </div>
+            <div class="demo-item">
+                <lith-menu>
+                    <span slot="trigger">导航菜单</span>
+                    <lith-menu-item value="home" href="/">首页</lith-menu-item>
+                    <lith-menu-item value="about" href="/about">关于我们</lith-menu-item>
+                    <lith-menu-item value="contact" href="/contact">联系我们</lith-menu-item>
+                    <lith-menu-item value="external" href="https://example.com" target="_blank">
+                        外部链接
+                        <span slot="suffix">↗</span>
+                    </lith-menu-item>
+                </lith-menu>
+            </div>
+            <div class="demo-item">
+                <lith-menu disabled>
+                    <span slot="trigger">禁用菜单</span>
+                    <lith-menu-item value="item1">选项 1</lith-menu-item>
+                    <lith-menu-item value="item2">选项 2</lith-menu-item>
+                </lith-menu>
+            </div>
+            <div class="demo-item">
+                <lith-menu>
+                    <span slot="trigger">混合状态菜单</span>
+                    <lith-menu-item value="available">可用选项</lith-menu-item>
+                    <lith-menu-item value="disabled" disabled>禁用选项</lith-menu-item>
+                    <lith-menu-item value="another">另一个选项</lith-menu-item>
+                </lith-menu>
+            </div>
+            <div class="demo-item">
+                <lith-menu close-on-select="false">
+                    <span slot="trigger">不自动关闭</span>
+                    <lith-menu-item value="option1">选项 1</lith-menu-item>
+                    <lith-menu-item value="option2">选项 2</lith-menu-item>
+                    <lith-menu-item value="option3">选项 3</lith-menu-item>
+                </lith-menu>
+            </div>
+        </div>
+        
+        <div class="demo-section">
             <h2>表单示例</h2>
             <form id="demo-form">
                 <div class="demo-item">
@@ -591,13 +717,17 @@
     <script type="importmap">
     {
         "imports": {
-            "lit": "https://cdn.jsdelivr.net/npm/lit@3/index.js",
-            "lit/": "https://cdn.jsdelivr.net/npm/lit@3/",
-            "@lit/reactive-element": "https://cdn.jsdelivr.net/npm/@lit/reactive-element@2/reactive-element.js",
-            "@lit/reactive-element/": "https://cdn.jsdelivr.net/npm/@lit/reactive-element@2/",
-            "lit-element/": "https://cdn.jsdelivr.net/npm/lit-element@4/",
-            "lit-html": "https://cdn.jsdelivr.net/npm/lit-html@3/lit-html.js",
-            "lit-html/": "https://cdn.jsdelivr.net/npm/lit-html@3/"
+            "lit": "https://cdn.jsdelivr.net/npm/lit@3.3.1/index.js",
+            "lit/": "https://cdn.jsdelivr.net/npm/lit@3.3.1/",
+            "lit/decorators.js": "https://cdn.jsdelivr.net/npm/lit@3.3.1/decorators.js",
+            "lit/directives/class-map.js": "https://cdn.jsdelivr.net/npm/lit@3.3.1/directives/class-map.js",
+            "lit/directives/if-defined.js": "https://cdn.jsdelivr.net/npm/lit@3.3.1/directives/if-defined.js",
+            "lit/directives/live.js": "https://cdn.jsdelivr.net/npm/lit@3.3.1/directives/live.js",
+            "@lit/reactive-element": "https://cdn.jsdelivr.net/npm/@lit/reactive-element@2.0.4/reactive-element.js",
+            "@lit/reactive-element/": "https://cdn.jsdelivr.net/npm/@lit/reactive-element@2.0.4/",
+            "lit-element/": "https://cdn.jsdelivr.net/npm/lit-element@4.1.1/",
+            "lit-html": "https://cdn.jsdelivr.net/npm/lit-html@3.3.1/lit-html.js",
+            "lit-html/": "https://cdn.jsdelivr.net/npm/lit-html@3.3.1/"
         }
     }
     </script>
@@ -634,6 +764,26 @@
         document.addEventListener('lith-filter', (e) => {
             if (e.target.tagName === 'LITH-COMBOBOX') {
                 console.log('Combobox filter:', e.target, e.detail);
+            }
+        });
+        
+        // Menu events
+        document.addEventListener('lith-menu-item-click', (e) => {
+            console.log('Menu item clicked:', e.target, e.detail);
+            if (!e.detail.href) {
+                alert(`菜单项被点击: ${e.detail.value}`);
+            }
+        });
+        
+        document.addEventListener('lith-open', (e) => {
+            if (e.target.tagName === 'LITH-MENU') {
+                console.log('Menu opened:', e.target);
+            }
+        });
+        
+        document.addEventListener('lith-close', (e) => {
+            if (e.target.tagName === 'LITH-MENU') {
+                console.log('Menu closed:', e.target);
             }
         });
         

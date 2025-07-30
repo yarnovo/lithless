@@ -109,34 +109,46 @@ lithless/
   - RadioGroup 组件 (`lith-radio-group` 和 `lith-radio`)
   - Switch 组件 (`lith-switch`)
   - Select 组件 (`lith-select` 和 `lith-option`)
+  - Combobox 组件 (`lith-combobox`)
+  - ~~Menu 组件~~ (`lith-menu` 和 `lith-menu-item`) - 需要重构
 - **第一阶段 (MVP) 已完成！** 🎉
-- **第二阶段进行中** - 已完成 Select 组件 ✅
+- **第二阶段已完成！** ✅ - 完成 Select 和 Combobox 组件
+- **第三阶段重新规划** 🔄 - 将实现 Popover 基础组件和菜单组件系列
 
-### 分阶段实现计划
+### 分阶段实现计划 (重新规划)
 1. **第一阶段 (MVP)** - 基础组件 ✅
    - [x] Button - 基础按钮组件
    - [x] Checkbox - 复选框组件（支持中间状态）
    - [x] RadioGroup - 单选框组组件
    - [x] Switch - 开关组件
 
-2. **第二阶段** - 选择器组件
+2. **第二阶段** - 选择器组件 ✅
    - [x] Select - 下拉选择器
-   - [ ] Combobox - 组合框（可搜索下拉）
+   - [x] Combobox - 组合框（可搜索下拉）
 
-3. **第三阶段** - 导航组件
-   - [ ] Menu - 下拉菜单
-   - [ ] Tabs - 标签页组件
-
-4. **第四阶段** - 反馈组件
+3. **第三阶段** - 基础交互组件 🔄
+   - [ ] Popover - 弹出框组件（其他组件的基础）
    - [ ] Modal - 模态框组件
-   - [ ] Popover - 弹出框组件
    - [ ] Tooltip - 工具提示组件
 
-5. **第五阶段** - 高级组件
+4. **第四阶段** - 菜单组件系列 🆕
+   - [ ] ContextMenu - 右键菜单组件（基于 Popover）
+   - [ ] DropdownMenu - 操作菜单组件（基于 Popover）
+   - [ ] NavigationMenu - 导航菜单组件（基于 Popover）
+   - [ ] MenuBar - 菜单栏组件（桌面应用风格）
+
+5. **第五阶段** - 导航组件
+   - [ ] Tabs - 标签页组件
+   - [ ] Breadcrumb - 面包屑导航
+
+6. **第六阶段** - 高级组件
    - [ ] Table - 表格组件
-   - [ ] Accordion - 折叠面板
+   - [ ] Accordion - 折叠面板  
    - [ ] Slider - 滑块组件
    - [ ] DatePicker - 日期选择器
+
+### 需要重构的组件
+- **Menu** - 当前的 `lith-menu` 实现更像 Select 组件，需要重构为专业的菜单组件系列
 
 ## 质量保证与测试
 
@@ -203,6 +215,35 @@ lithless/
 3. **测试覆盖**: 确保新组件有完整的测试覆盖
 4. **文档完整**: 每个组件都需要对应的 Storybook 故事
 5. **代码质量检查**: 每次代码修改后必须运行 `npm run check` 确保通过所有检查
+
+### 调试和命令执行最佳实践
+
+**⚠️ 严重警告：阻塞命令处理**
+
+1. **永远不要使用会阻塞的日志命令**:
+   - ❌ 错误: `pm2 logs xxx` (会一直阻塞等待新日志)
+   - ✅ 正确: `pm2 logs xxx --lines N --no-stream` (获取指定行数后立即退出)
+   - ✅ 正确: `timeout 5s pm2 logs xxx --lines N` (设置超时时间)
+
+2. **所有可能阻塞的 Bash 命令必须设置超时**:
+   ```bash
+   # 使用 timeout 命令设置超时
+   timeout 10s some-long-running-command
+   ```
+
+3. **日志查看的正确方式**:
+   ```bash
+   # 查看最近的日志（不阻塞）
+   pm2 logs process-name --lines 10 --no-stream
+   
+   # 或者直接查看日志文件
+   tail -n 10 logs/process-error.log
+   ```
+
+4. **其他容易阻塞的命令**:
+   - `tail -f` → 使用 `tail -n N`
+   - `watch` → 使用一次性命令
+   - 任何实时监控命令都要谨慎使用
 
 ### 代码提交规范
 - 使用 husky 和 lint-staged 进行提交前检查

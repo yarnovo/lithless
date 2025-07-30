@@ -21,3 +21,5 @@ export type {
   ComboboxInputDetail,
   ComboboxFilterDetail,
 } from './lith-combobox.js';
+
+export { LithVirtualScroll } from './lith-virtual-scroll.js';

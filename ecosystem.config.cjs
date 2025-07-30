@@ -20,10 +20,10 @@ module.exports = {
     {
       name: 'lithless-demo',
       script: 'npx',
-      args: 'vite',
-      cwd: '/home/yarnb/lithless/demo',
+      args: 'tsx demo/server.ts',
+      cwd: '/home/yarnb/lithless',
       env: {
-        NODE_ENV: 'development'
+        NODE_ENV: 'production'
       },
       log_file: './logs/demo.log',
       out_file: './logs/demo-out.log',
