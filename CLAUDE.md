@@ -106,14 +106,16 @@ lithless/
 - **已完成**: 
   - Button 组件 (`lith-button`)
   - Checkbox 组件 (`lith-checkbox`)
-- **进行中**: 项目基础架构和文档完善
+  - RadioGroup 组件 (`lith-radio-group` 和 `lith-radio`)
+  - Switch 组件 (`lith-switch`)
+- **第一阶段 (MVP) 已完成！** 🎉
 
 ### 分阶段实现计划
-1. **第一阶段 (MVP)** - 基础组件
+1. **第一阶段 (MVP)** - 基础组件 ✅
    - [x] Button - 基础按钮组件
    - [x] Checkbox - 复选框组件（支持中间状态）
-   - [ ] RadioGroup - 单选框组组件
-   - [ ] Switch - 开关组件
+   - [x] RadioGroup - 单选框组组件
+   - [x] Switch - 开关组件
 
 2. **第二阶段** - 选择器组件
    - [ ] Select - 下拉选择器

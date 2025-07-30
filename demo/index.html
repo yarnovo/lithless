@@ -154,6 +154,39 @@
             display: flex;
             gap: 20px;
         }
+        
+        /* Switch styles */
+        lith-switch::part(control) {
+            background-color: #ccc;
+            border-radius: 12px;
+            transition: background-color 200ms;
+        }
+        
+        lith-switch[checked]::part(control) {
+            background-color: #007bff;
+        }
+        
+        lith-switch::part(thumb) {
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            border-radius: 50%;
+        }
+        
+        lith-switch[disabled] {
+            opacity: 0.5;
+        }
+        
+        lith-switch[size="small"] {
+            --lith-switch-width: 36px;
+            --lith-switch-height: 20px;
+            --lith-switch-thumb-size: 16px;
+        }
+        
+        lith-switch[size="large"] {
+            --lith-switch-width: 52px;
+            --lith-switch-height: 28px;
+            --lith-switch-thumb-size: 24px;
+        }
     </style>
 </head>
 <body>
@@ -214,6 +247,27 @@
         </div>
         
         <div class="demo-section">
+            <h2>开关组件</h2>
+            <div class="demo-item">
+                <lith-switch>默认开关</lith-switch>
+            </div>
+            <div class="demo-item">
+                <lith-switch checked>已开启的开关</lith-switch>
+            </div>
+            <div class="demo-item">
+                <lith-switch disabled>禁用的开关</lith-switch>
+            </div>
+            <div class="demo-item">
+                <lith-switch disabled checked>禁用且开启的开关</lith-switch>
+            </div>
+            <div class="demo-item">
+                <lith-switch size="small">小尺寸</lith-switch>
+                <lith-switch size="medium">中尺寸</lith-switch>
+                <lith-switch size="large">大尺寸</lith-switch>
+            </div>
+        </div>
+        
+        <div class="demo-section">
             <h2>表单示例</h2>
             <form id="demo-form">
                 <div class="demo-item">
@@ -231,6 +285,12 @@
                         <lith-radio value="express">快速配送</lith-radio>
                         <lith-radio value="pickup">自提</lith-radio>
                     </lith-radio-group>
+                </div>
+                <div class="demo-item">
+                    <lith-switch name="darkMode" value="on">启用深色模式</lith-switch>
+                </div>
+                <div class="demo-item">
+                    <lith-switch name="autoSave" value="yes" checked>自动保存</lith-switch>
                 </div>
                 <div class="demo-item" style="margin-top: 20px;">
                     <button type="submit">提交</button>

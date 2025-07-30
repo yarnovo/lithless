@@ -14,6 +14,10 @@ if (!customElements.get('lith-checkbox')) {
   import('./components/form/lith-checkbox');
 }
 
+if (!customElements.get('lith-switch')) {
+  import('./components/form/lith-switch');
+}
+
 if (!customElements.get('lith-button')) {
   import('./components/button/lith-button');
 }
