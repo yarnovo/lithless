@@ -110,9 +110,18 @@ lithless/
   - Switch 组件 (`lith-switch`)
   - Select 组件 (`lith-select` 和 `lith-option`)
   - Combobox 组件 (`lith-combobox`)
-  - VirtualScroll 组件 (`lith-virtual-scroll`) - 虚拟滚动容器 🆕
-  - VirtualScroll2DCore - 二维虚拟滚动核心（为 Table 准备）🆕
-  - ~~Menu 组件~~ (`lith-menu` 和 `lith-menu-item`) - 需要重构
+  - VirtualScroll 组件 (`lith-virtual-scroll`) - 虚拟滚动容器
+  - Portal 组件 (`lith-portal`) - 传送门组件
+  - Popover 组件 (`lith-popover`) - 弹出框组件
+  - Modal 组件 (`lith-modal`) - 模态框组件
+  - Tooltip 组件 (`lith-tooltip`) - 工具提示组件 🆕
+  - Menu 组件 (`lith-menu` 和 `lith-menu-item`) - 基础菜单组件
+  - ContextMenu 组件 (`lith-context-menu`) - 右键菜单组件
+  - DropdownMenu 组件 (`lith-dropdown-menu`) - 下拉菜单组件
+  - NavigationMenu 组件 (`lith-navigation-menu`) - 导航菜单组件
+  - MenuBar 组件 (`lith-menu-bar`) - 菜单栏组件
+  - Toast 组件 (`lith-toast` 和 `lith-toast-container`) - 轻量级消息提示
+  - Notification 组件 (`lith-notification`) - 通知提示组件
 
 ### 分阶段实现计划（2025年更新版）
 
@@ -126,38 +135,42 @@ lithless/
 - [x] Select - 下拉选择器
 - [x] Combobox - 组合框（可搜索下拉）
 
-#### 🚧 第三阶段 - 基础架构组件【进行中】
+#### ✅ 第三阶段 - 基础架构组件【已完成】
 - [x] VirtualScroll - 虚拟滚动容器（2025-07-30 完成）
-- [ ] Popover - 弹出框组件（其他浮层组件的基础）
-- [ ] Portal - 传送门组件（处理 z-index 和定位）
+- [x] Popover - 弹出框组件（其他浮层组件的基础）✅
+- [x] Portal - 传送门组件（处理 z-index 和定位）✅ (2025-07-30 完成)
 
-#### 📋 第四阶段 - 交互反馈组件
-- [ ] Modal/Dialog - 模态框组件
-- [ ] Tooltip - 工具提示组件  
-- [ ] Toast/Notification - 通知提示组件
+#### ✅ 第四阶段 - 交互反馈组件【已完成】
+- [x] Modal/Dialog - 模态框组件 ✅ (2025-07-30 完成)
+- [x] Tooltip - 工具提示组件 ✅ (2025-07-30 完成)
+- [x] Toast/Notification - 通知提示组件 ✅
 - [ ] Progress - 进度条组件
 
-#### 📋 第五阶段 - 菜单导航组件
-- [ ] ContextMenu - 右键菜单组件（基于 Popover）
-- [ ] DropdownMenu - 下拉菜单组件（基于 Popover）
-- [ ] NavigationMenu - 导航菜单组件（基于 Popover）
+#### ✅ 第五阶段 - 菜单导航组件【已完成】
+- [x] ContextMenu - 右键菜单组件（基于 Popover）✅
+- [x] DropdownMenu - 下拉菜单组件（基于 Popover）✅
+- [x] NavigationMenu - 导航菜单组件（基于 Popover）✅
+- [x] MenuBar - 菜单栏组件 ✅
+- [x] Menu/MenuItem - 基础菜单组件（已重构）✅
+
+#### 📋 第六阶段 - 导航辅助组件
 - [ ] Tabs - 标签页组件
 - [ ] Breadcrumb - 面包屑导航
 
-#### 📋 第六阶段 - 数据展示组件
+#### 📋 第七阶段 - 数据展示组件
 - [ ] Table - 表格组件（基于 VirtualScroll2DCore）
 - [ ] Tree - 树形组件
 - [ ] List - 列表组件（支持虚拟滚动）
 - [ ] Accordion - 折叠面板
 
-#### 📋 第七阶段 - 高级输入组件
+#### 📋 第八阶段 - 高级输入组件
 - [ ] Slider - 滑块组件
 - [ ] DatePicker - 日期选择器
 - [ ] TimePicker - 时间选择器
 - [ ] ColorPicker - 颜色选择器
 - [ ] Upload - 文件上传组件
 
-#### 📋 第八阶段 - 布局和实用组件
+#### 📋 第九阶段 - 布局和实用组件
 - [ ] Layout - 布局组件
 - [ ] Grid - 网格系统
 - [ ] Divider - 分割线
@@ -166,15 +179,15 @@ lithless/
 - [ ] Tag - 标签组件
 
 ### 技术债务和重构计划
-- **Menu 重构** - 当前的 `lith-menu` 实现需要重构为专业的菜单组件
 - **表单验证** - 为所有表单组件添加统一的验证机制
 - **主题系统** - 实现 CSS 变量主题系统
 - **文档完善** - 为每个组件编写详细的 API 文档和使用指南
+- **性能优化** - 优化大数据量场景下的渲染性能
 
 ### 优先级说明
-1. **基础架构优先** - Popover、Portal 等基础组件将被优先实现，因为很多其他组件依赖它们
-2. **常用组件优先** - Table、Modal、Tooltip 等高频使用的组件将在靠前的阶段实现
-3. **渐进式增强** - 先实现基础功能，后续版本再添加高级特性
+1. **常用组件优先** - Table、Tooltip、Toast 等高频使用的组件将在靠前的阶段实现
+2. **渐进式增强** - 先实现基础功能，后续版本再添加高级特性
+3. **用户反馈驱动** - 根据用户需求调整组件开发优先级
 
 ## 质量保证与测试
 

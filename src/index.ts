@@ -23,6 +23,9 @@ export type {
   ComboboxFilterDetail,
 } from './components/form/lith-combobox.js';
 
+export { LithSlider } from './components/form/lith-slider.js';
+export type { SliderChangeDetail, SliderInputDetail } from './components/form/lith-slider.js';
+
 export { LithPopover } from './components/feedback/lith-popover.js';
 export type {
   PopoverPlacement,
@@ -55,4 +58,63 @@ export { LithMenu } from './components/navigation/lith-menu.js';
 export { LithMenuItem } from './components/navigation/lith-menu-item.js';
 export type { MenuItemClickDetail } from './components/navigation/lith-menu.js';
 
+export { LithTabs } from './components/navigation/lith-tabs.js';
+export { LithTab } from './components/navigation/lith-tab.js';
+export { LithTabPanel } from './components/navigation/lith-tab-panel.js';
+export type { TabChangeDetail } from './components/navigation/lith-tabs.js';
+
+export { LithBreadcrumb } from './components/navigation/lith-breadcrumb.js';
+export { LithBreadcrumbItem } from './components/navigation/lith-breadcrumb-item.js';
+export type { BreadcrumbItemClickDetail } from './components/navigation/lith-breadcrumb.js';
+
 export { LithPortal } from './components/feedback/lith-portal.js';
+
+export { LithModal } from './components/feedback/lith-modal.js';
+
+export { LithTooltip } from './components/feedback/lith-tooltip.js';
+export type { TooltipPlacement } from './components/feedback/lith-tooltip.js';
+
+export { LithToastContainer } from './components/feedback/lith-toast-container.js';
+export { LithToast } from './components/feedback/lith-toast.js';
+export { LithNotification } from './components/feedback/lith-notification.js';
+
+export {
+  toast,
+  toastManager,
+  type ToastOptions,
+  type Toast,
+  type ToastType,
+  type ToastPosition,
+} from './core/toast-manager.js';
+export {
+  notification,
+  notificationManager,
+  type NotificationOptions,
+  type Notification,
+} from './core/notification-manager.js';
+
+export { LithTable } from './components/data-display/lith-table.js';
+export type {
+  TableColumn,
+  TableRow,
+  SortInfo,
+  TableSelectionChangeEvent,
+  TableSortChangeEvent,
+  TableCellClickEvent,
+} from './components/data-display/lith-table.js';
+
+export { LithTree } from './components/data-display/lith-tree.js';
+export { LithTreeItem } from './components/data-display/lith-tree-item.js';
+export type {
+  TreeNode,
+  TreeSelectionChangeDetail,
+  TreeLazyLoadDetail,
+} from './components/data-display/lith-tree.js';
+export type {
+  TreeItemToggleDetail,
+  TreeItemSelectDetail,
+} from './components/data-display/lith-tree-item.js';
+
+export { LithAccordion } from './components/data-display/lith-accordion.js';
+export { LithAccordionItem } from './components/data-display/lith-accordion-item.js';
+export type { AccordionChangeDetail } from './components/data-display/lith-accordion.js';

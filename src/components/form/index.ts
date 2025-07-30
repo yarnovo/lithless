@@ -23,3 +23,9 @@ export type {
 } from './lith-combobox.js';
 
 export { LithVirtualScroll } from './lith-virtual-scroll.js';
+
+export { LithDatePicker } from './lith-date-picker.js';
+export type { DatePickerChangeDetail, DatePickerInputDetail } from './lith-date-picker.js';
+
+export { LithSlider } from './lith-slider.js';
+export type { SliderChangeDetail, SliderInputDetail } from './lith-slider.js';

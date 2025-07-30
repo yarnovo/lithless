@@ -48,12 +48,18 @@
         lith-checkbox:not(:defined),
         lith-radio-group:not(:defined),
         lith-radio:not(:defined),
+        lith-date-picker:not(:defined),
         lith-switch:not(:defined),
         lith-select:not(:defined),
         lith-option:not(:defined),
         lith-combobox:not(:defined),
         lith-menu:not(:defined),
-        lith-menu-item:not(:defined) {
+        lith-menu-item:not(:defined),
+        lith-tabs:not(:defined),
+        lith-tab:not(:defined),
+        lith-tab-panel:not(:defined),
+        lith-breadcrumb:not(:defined),
+        lith-breadcrumb-item:not(:defined) {
             visibility: hidden;
             display: inline-block;
             /* 保持布局空间，防止页面跳动 */
@@ -71,7 +77,12 @@
         lith-option:defined,
         lith-combobox:defined,
         lith-menu:defined,
-        lith-menu-item:defined {
+        lith-menu-item:defined,
+        lith-tabs:defined,
+        lith-tab:defined,
+        lith-tab-panel:defined,
+        lith-breadcrumb:defined,
+        lith-breadcrumb-item:defined {
             animation: fadeIn 0.2s ease-in;
         }
         
@@ -328,6 +339,116 @@
             color: #999;
             opacity: 0.6;
         }
+
+        /* Date Picker styles */
+        lith-date-picker {
+            --lith-date-picker-input-padding: 12px 16px;
+            --lith-date-picker-input-gap: 8px;
+            --lith-date-picker-calendar-width: 320px;
+            --lith-date-picker-cell-size: 40px;
+            --lith-date-picker-focus-ring-width: 2px;
+            --lith-date-picker-transition-duration: 200ms;
+            
+            width: 280px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            background: white;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            color: #1a202c;
+            margin-bottom: 10px;
+        }
+
+        lith-date-picker:focus-within {
+            border-color: #3b82f6;
+        }
+
+        lith-date-picker[disabled] {
+            opacity: 0.6;
+            background: #f7fafc;
+        }
+
+        lith-date-picker::part(input) {
+            background: transparent;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        lith-date-picker::part(icon) {
+            color: #6b7280;
+            font-size: 16px;
+        }
+
+        lith-date-picker::part(calendar) {
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            background: white;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        lith-date-picker::part(header) {
+            border-bottom: 1px solid #e2e8f0;
+            background: #f8fafc;
+        }
+
+        lith-date-picker::part(title) {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1a202c;
+        }
+
+        lith-date-picker::part(prev-button),
+        lith-date-picker::part(next-button) {
+            color: #6b7280;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        lith-date-picker::part(prev-button):hover,
+        lith-date-picker::part(next-button):hover {
+            background: #e2e8f0;
+            color: #374151;
+        }
+
+        lith-date-picker::part(weekday) {
+            color: #6b7280;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        lith-date-picker::part(day),
+        lith-date-picker::part(month),
+        lith-date-picker::part(year) {
+            color: #374151;
+            font-size: 14px;
+            border-radius: 6px;
+            transition: all 150ms ease;
+        }
+
+        lith-date-picker ::part(day):hover,
+        lith-date-picker ::part(month):hover,  
+        lith-date-picker ::part(year):hover {
+            background: #f3f4f6;
+        }
+
+        lith-date-picker ::part(day).other-month {
+            color: #9ca3af;
+        }
+
+        lith-date-picker ::part(day).selected,
+        lith-date-picker ::part(month).selected,
+        lith-date-picker ::part(year).selected {
+            background: #3b82f6 !important;
+            color: white;
+        }
+
+        lith-date-picker ::part(day).today {
+            font-weight: 700;
+            color: #3b82f6;
+        }
+
+        lith-date-picker ::part(day).selected.today {
+            color: white;
+        }
         
         /* Menu styles */
         lith-menu {
@@ -384,6 +505,153 @@
         lith-menu-item[disabled] {
             color: #999;
             opacity: 0.6;
+        }
+        
+        /* Tabs styling */
+        lith-tabs {
+            display: block;
+            margin-bottom: 20px;
+        }
+        
+        lith-tabs::part(tablist) {
+            display: flex;
+            gap: 2px;
+            border-bottom: 2px solid #e9ecef;
+            margin-bottom: 0;
+        }
+        
+        lith-tab {
+            padding: 12px 20px;
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-bottom: none;
+            border-radius: 6px 6px 0 0;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        lith-tab[active] {
+            background: white;
+            border-color: #007bff;
+            color: #007bff;
+            font-weight: 600;
+            position: relative;
+            z-index: 1;
+        }
+        
+        lith-tab[active]::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: white;
+        }
+        
+        lith-tab:hover:not([disabled]):not([active]) {
+            background: #e9ecef;
+        }
+        
+        lith-tab[disabled] {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        lith-tab:focus {
+            outline: 2px solid #007bff;
+            outline-offset: 2px;
+        }
+        
+        lith-tab-panel {
+            background: white;
+            border: 1px solid #dee2e6;
+            border-top: none;
+            padding: 20px;
+            border-radius: 0 0 6px 6px;
+            min-height: 150px;
+        }
+        
+        /* Vertical tabs */
+        lith-tabs[orientation="vertical"] {
+            display: flex;
+            gap: 0;
+        }
+        
+        lith-tabs[orientation="vertical"]::part(tablist) {
+            flex-direction: column;
+            border-bottom: none;
+            border-right: 2px solid #e9ecef;
+            min-width: 200px;
+        }
+        
+        lith-tabs[orientation="vertical"] lith-tab {
+            border-radius: 6px 0 0 6px;
+            border-right: none;
+        }
+        
+        lith-tabs[orientation="vertical"] lith-tab[active]::after {
+            bottom: 0;
+            right: -2px;
+            top: 0;
+            left: auto;
+            width: 2px;
+            height: auto;
+        }
+        
+        lith-tabs[orientation="vertical"] lith-tab-panel {
+            border-left: none;
+            border-radius: 0 6px 6px 0;
+            flex: 1;
+        }
+        
+        /* Breadcrumb styling */
+        lith-breadcrumb {
+            display: block;
+            padding: 12px 16px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            border: 1px solid #dee2e6;
+            margin-bottom: 15px;
+        }
+        
+        lith-breadcrumb::part(base) {
+            margin: 0;
+            padding: 0;
+        }
+        
+        lith-breadcrumb-item {
+            color: #007bff;
+            text-decoration: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+            transition: background-color 0.2s ease;
+        }
+        
+        lith-breadcrumb-item:hover:not([current]):not([disabled]) {
+            background: rgba(0, 123, 255, 0.1);
+            text-decoration: underline;
+        }
+        
+        lith-breadcrumb-item[current] {
+            color: #6c757d;
+            font-weight: 600;
+            cursor: default;
+        }
+        
+        lith-breadcrumb-item[disabled] {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        lith-breadcrumb-item:focus {
+            outline: 2px solid #007bff;
+            outline-offset: 2px;
+        }
+        
+        lith-breadcrumb .separator {
+            color: #6c757d;
+            margin: 0 4px;
         }
     </style>
 </head>
@@ -648,6 +916,248 @@
         </div>
         
         <div class="demo-section">
+            <h2>标签页组件</h2>
+            <div class="demo-item">
+                <h3>水平标签页</h3>
+                <lith-tabs active-tab="tab1">
+                    <lith-tab panel="tab1">🏠 首页</lith-tab>
+                    <lith-tab panel="tab2">📊 数据</lith-tab>
+                    <lith-tab panel="tab3">⚙️ 设置</lith-tab>
+                    <lith-tab panel="tab4" disabled>🔒 锁定</lith-tab>
+                    
+                    <lith-tab-panel slot="panels" tab-id="tab1">
+                        <h4>欢迎来到首页</h4>
+                        <p>这是首页标签页的内容。您可以使用鼠标点击或键盘导航（方向键、Home、End）来切换标签页。</p>
+                        <button>示例按钮</button>
+                    </lith-tab-panel>
+                    
+                    <lith-tab-panel slot="panels" tab-id="tab2">
+                        <h4>数据面板</h4>
+                        <p>这里显示各种数据统计和图表。</p>
+                        <ul>
+                            <li>用户统计: 1,234</li>
+                            <li>销售额: ¥56,789</li>
+                            <li>增长率: 12.5%</li>
+                        </ul>
+                    </lith-tab-panel>
+                    
+                    <lith-tab-panel slot="panels" tab-id="tab3">
+                        <h4>系统设置</h4>
+                        <p>配置您的应用程序首选项。</p>
+                        <div style="margin-top: 15px;">
+                            <label><input type="checkbox" checked> 启用通知</label><br>
+                            <label><input type="checkbox"> 深色模式</label><br>
+                            <label>语言: <select><option>中文</option><option>English</option></select></label>
+                        </div>
+                    </lith-tab-panel>
+                    
+                    <lith-tab-panel slot="panels" tab-id="tab4">
+                        <h4>锁定内容</h4>
+                        <p>这个标签页被禁用了，无法访问。</p>
+                    </lith-tab-panel>
+                </lith-tabs>
+            </div>
+            
+            <div class="demo-item">
+                <h3>垂直标签页</h3>
+                <lith-tabs orientation="vertical" active-tab="vtab1" style="height: 300px;">
+                    <lith-tab panel="vtab1">📋 总览</lith-tab>
+                    <lith-tab panel="vtab2">📈 分析</lith-tab>
+                    <lith-tab panel="vtab3">📄 报告</lith-tab>
+                    
+                    <lith-tab-panel slot="panels" tab-id="vtab1">
+                        <h4>总览面板</h4>
+                        <p>系统总览信息和关键指标。</p>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 15px; margin-top: 15px;">
+                            <div style="padding: 15px; background: #e3f2fd; border-radius: 6px; text-align: center;">
+                                <div style="font-size: 20px; font-weight: bold; color: #1976d2;">1,234</div>
+                                <div style="color: #666; font-size: 12px;">总用户</div>
+                            </div>
+                            <div style="padding: 15px; background: #e8f5e8; border-radius: 6px; text-align: center;">
+                                <div style="font-size: 20px; font-weight: bold; color: #388e3c;">5,678</div>
+                                <div style="color: #666; font-size: 12px;">销售额</div>
+                            </div>
+                        </div>
+                    </lith-tab-panel>
+                    
+                    <lith-tab-panel slot="panels" tab-id="vtab2">
+                        <h4>数据分析</h4>
+                        <p>详细的分析数据和洞察。</p>
+                        <div style="background: #f5f5f5; padding: 15px; border-radius: 4px; margin-top: 15px;">
+                            <h5>关键指标</h5>
+                            <ul>
+                                <li>页面浏览量: 45,320 (+12%)</li>
+                                <li>独立访客: 12,890 (+8%)</li>
+                                <li>跳出率: 34.2% (-5%)</li>
+                            </ul>
+                        </div>
+                    </lith-tab-panel>
+                    
+                    <lith-tab-panel slot="panels" tab-id="vtab3">
+                        <h4>生成报告</h4>
+                        <p>下载和查看生成的报告。</p>
+                        <div style="margin-top: 15px;">
+                            <button style="margin-right: 10px; margin-bottom: 8px;">月度销售报告</button><br>
+                            <button style="margin-right: 10px; margin-bottom: 8px;">用户活动报告</button><br>
+                            <button style="margin-right: 10px; margin-bottom: 8px;">性能分析</button>
+                        </div>
+                    </lith-tab-panel>
+                </lith-tabs>
+            </div>
+            
+            <div class="demo-item">
+                <h3>手动激活模式</h3>
+                <p style="background: #e3f2fd; padding: 10px; border-radius: 4px; font-size: 14px;">
+                    <strong>说明:</strong> 使用方向键导航标签页，然后按 Enter 或 Space 激活选中的标签。
+                </p>
+                <lith-tabs activation-mode active-tab="manual1">
+                    <lith-tab panel="manual1">介绍</lith-tab>
+                    <lith-tab panel="manual2">教程</lith-tab>
+                    <lith-tab panel="manual3">高级</lith-tab>
+                    
+                    <lith-tab-panel slot="panels" tab-id="manual1">
+                        <h4>介绍</h4>
+                        <p>欢迎使用手动激活模式演示。在此模式下，焦点通过方向键移动，但标签页不会自动激活。</p>
+                        <p>尝试按右方向键移动焦点，然后按 Enter 或 Space 激活焦点所在的标签页。</p>
+                    </lith-tab-panel>
+                    
+                    <lith-tab-panel slot="panels" tab-id="manual2">
+                        <h4>教程</h4>
+                        <p>这是教程部分。手动激活模式为使用辅助技术的用户提供更好的可访问性。</p>
+                        <p>它可以防止在浏览选项时意外激活标签页。</p>
+                    </lith-tab-panel>
+                    
+                    <lith-tab-panel slot="panels" tab-id="manual3">
+                        <h4>高级主题</h4>
+                        <p>高级主题和配置在这里介绍。</p>
+                        <p>手动激活在复杂界面中特别有用，可以防止意外的标签页切换造成干扰。</p>
+                    </lith-tab-panel>
+                </lith-tabs>
+            </div>
+        </div>
+        
+        <div class="demo-section">
+            <h2>面包屑导航</h2>
+            <div class="demo-item">
+                <h3>基础面包屑</h3>
+                <lith-breadcrumb>
+                    <lith-breadcrumb-item href="/">🏠 首页</lith-breadcrumb-item>
+                    <lith-breadcrumb-item href="/products">产品</lith-breadcrumb-item>
+                    <lith-breadcrumb-item href="/products/electronics">电子产品</lith-breadcrumb-item>
+                    <lith-breadcrumb-item current>智能手机</lith-breadcrumb-item>
+                </lith-breadcrumb>
+            </div>
+            
+            <div class="demo-item">
+                <h3>自定义分隔符</h3>
+                <lith-breadcrumb separator="→">
+                    <lith-breadcrumb-item href="/">管理员</lith-breadcrumb-item>
+                    <lith-breadcrumb-item href="/users">用户管理</lith-breadcrumb-item>
+                    <lith-breadcrumb-item current>用户详情</lith-breadcrumb-item>
+                </lith-breadcrumb>
+                
+                <lith-breadcrumb separator="•">
+                    <lith-breadcrumb-item href="/">博客</lith-breadcrumb-item>
+                    <lith-breadcrumb-item href="/2024">2024年</lith-breadcrumb-item>
+                    <lith-breadcrumb-item href="/2024/march">三月</lith-breadcrumb-item>
+                    <lith-breadcrumb-item current>Web组件指南</lith-breadcrumb-item>
+                </lith-breadcrumb>
+            </div>
+            
+            <div class="demo-item">
+                <h3>带图标的面包屑</h3>
+                <lith-breadcrumb separator="/">
+                    <lith-breadcrumb-item href="/">
+                        <span slot="icon">🏠</span>
+                        首页
+                    </lith-breadcrumb-item>
+                    <lith-breadcrumb-item href="/dashboard">
+                        <span slot="icon">📊</span>
+                        仪表板
+                    </lith-breadcrumb-item>
+                    <lith-breadcrumb-item href="/dashboard/analytics">
+                        <span slot="icon">📈</span>
+                        分析
+                    </lith-breadcrumb-item>
+                    <lith-breadcrumb-item current>
+                        <span slot="icon">📋</span>
+                        报告
+                    </lith-breadcrumb-item>
+                </lith-breadcrumb>
+            </div>
+            
+            <div class="demo-item">
+                <h3>不同类型的面包屑项</h3>
+                <lith-breadcrumb>
+                    <lith-breadcrumb-item href="/" target="_blank">外部链接</lith-breadcrumb-item>
+                    <lith-breadcrumb-item>按钮项</lith-breadcrumb-item>
+                    <lith-breadcrumb-item disabled>禁用项</lith-breadcrumb-item>
+                    <lith-breadcrumb-item current>当前页</lith-breadcrumb-item>
+                </lith-breadcrumb>
+            </div>
+            
+            <div class="demo-item">
+                <h3>长路径面包屑</h3>
+                <lith-breadcrumb>
+                    <lith-breadcrumb-item href="/">🏠 首页</lith-breadcrumb-item>
+                    <lith-breadcrumb-item href="/company">公司信息</lith-breadcrumb-item>
+                    <lith-breadcrumb-item href="/company/departments">部门团队</lith-breadcrumb-item>
+                    <lith-breadcrumb-item href="/company/departments/engineering">工程部门</lith-breadcrumb-item>
+                    <lith-breadcrumb-item href="/company/departments/engineering/frontend">前端开发</lith-breadcrumb-item>
+                    <lith-breadcrumb-item current>Web组件团队</lith-breadcrumb-item>
+                </lith-breadcrumb>
+            </div>
+        </div>
+        
+        <div class="demo-section">
+            <h2>日期选择器 (Date Picker)</h2>
+            <div class="demo-item">
+                <h3>基础日期选择器</h3>
+                <lith-date-picker placeholder="选择日期"></lith-date-picker>
+            </div>
+            
+            <div class="demo-item">
+                <h3>带默认值的日期选择器</h3>
+                <lith-date-picker value="2024-12-25" placeholder="圣诞节"></lith-date-picker>
+            </div>
+            
+            <div class="demo-item">
+                <h3>日期范围限制</h3>
+                <lith-date-picker 
+                    placeholder="选择2024年的日期" 
+                    min="2024-01-01" 
+                    max="2024-12-31">
+                </lith-date-picker>
+            </div>
+            
+            <div class="demo-item">
+                <h3>禁用状态</h3>
+                <lith-date-picker 
+                    value="2024-06-15" 
+                    placeholder="已禁用"
+                    disabled>
+                </lith-date-picker>
+            </div>
+            
+            <div class="demo-item">
+                <h3>只读状态</h3>
+                <lith-date-picker 
+                    value="2024-06-15" 
+                    placeholder="只读模式"
+                    readonly>
+                </lith-date-picker>
+            </div>
+            
+            <div class="demo-item">
+                <h3>必填字段</h3>
+                <lith-date-picker 
+                    placeholder="请选择出生日期" 
+                    required>
+                </lith-date-picker>
+            </div>
+        </div>
+        
+        <div class="demo-section">
             <h2>表单示例</h2>
             <form id="demo-form">
                 <div class="demo-item">
@@ -705,6 +1215,15 @@
                         <lith-option value="hangzhou">杭州</lith-option>
                     </lith-combobox>
                 </div>
+                <div class="demo-item">
+                    <lith-date-picker name="birthDate" placeholder="选择出生日期" required></lith-date-picker>
+                </div>
+                <div class="demo-item">
+                    <lith-date-picker name="startDate" placeholder="选择开始日期" value="2024-01-01"></lith-date-picker>
+                </div>
+                <div class="demo-item">
+                    <lith-date-picker name="endDate" placeholder="选择结束日期" min="2024-01-01" max="2024-12-31"></lith-date-picker>
+                </div>
                 <div class="demo-item" style="margin-top: 20px;">
                     <button type="submit">提交</button>
                     <button type="reset">重置</button>
@@ -751,6 +1270,10 @@
                 console.log('Select changed:', e.target, e.detail);
             } else if (e.target.tagName === 'LITH-COMBOBOX') {
                 console.log('Combobox changed:', e.target, e.detail);
+            } else if (e.target.tagName === 'LITH-DATE-PICKER') {
+                console.log('Date picker changed:', e.target, e.detail);
+            } else if (e.target.tagName === 'LITH-TABS') {
+                console.log('Tab changed:', e.target, e.detail);
             }
         });
         
@@ -758,6 +1281,8 @@
         document.addEventListener('lith-input', (e) => {
             if (e.target.tagName === 'LITH-COMBOBOX') {
                 console.log('Combobox input:', e.target, e.detail);
+            } else if (e.target.tagName === 'LITH-DATE-PICKER') {
+                console.log('Date picker input:', e.target, e.detail);
             }
         });
         
@@ -778,12 +1303,24 @@
         document.addEventListener('lith-open', (e) => {
             if (e.target.tagName === 'LITH-MENU') {
                 console.log('Menu opened:', e.target);
+            } else if (e.target.tagName === 'LITH-DATE-PICKER') {
+                console.log('Date picker calendar opened:', e.target);
             }
         });
         
         document.addEventListener('lith-close', (e) => {
             if (e.target.tagName === 'LITH-MENU') {
                 console.log('Menu closed:', e.target);
+            } else if (e.target.tagName === 'LITH-DATE-PICKER') {
+                console.log('Date picker calendar closed:', e.target);
+            }
+        });
+        
+        // Breadcrumb events
+        document.addEventListener('lith-breadcrumb-click', (e) => {
+            console.log('Breadcrumb item clicked:', e.target, e.detail);
+            if (!e.detail.href) {
+                alert(`面包屑项被点击: ${e.detail.item.textContent.trim()}`);
             }
         });
         
