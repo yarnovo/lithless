@@ -110,18 +110,27 @@ lithless/
   - Switch 组件 (`lith-switch`)
   - Select 组件 (`lith-select` 和 `lith-option`)
   - Combobox 组件 (`lith-combobox`)
-  - VirtualScroll 组件 (`lith-virtual-scroll`) - 虚拟滚动容器
+  - Slider 组件 (`lith-slider`) - 滑块组件 🆕
   - Portal 组件 (`lith-portal`) - 传送门组件
   - Popover 组件 (`lith-popover`) - 弹出框组件
   - Modal 组件 (`lith-modal`) - 模态框组件
-  - Tooltip 组件 (`lith-tooltip`) - 工具提示组件 🆕
+  - AlertDialog 组件 (`lith-alert-dialog`) - 警告对话框 🆕
+  - Tooltip 组件 (`lith-tooltip`) - 工具提示组件
+  - Alert 组件 (`lith-alert`) - 警告提示组件 🆕
+  - Progress 组件 (`lith-progress`) - 进度条组件 🆕
+  - Skeleton 组件 (`lith-skeleton`) - 骨架屏组件 🆕
+  - Toast 组件 (`lith-toast` 和 `lith-toast-container`) - 轻量级消息提示
+  - Notification 组件 (`lith-notification`) - 通知提示组件
   - Menu 组件 (`lith-menu` 和 `lith-menu-item`) - 基础菜单组件
   - ContextMenu 组件 (`lith-context-menu`) - 右键菜单组件
   - DropdownMenu 组件 (`lith-dropdown-menu`) - 下拉菜单组件
   - NavigationMenu 组件 (`lith-navigation-menu`) - 导航菜单组件
   - MenuBar 组件 (`lith-menu-bar`) - 菜单栏组件
-  - Toast 组件 (`lith-toast` 和 `lith-toast-container`) - 轻量级消息提示
-  - Notification 组件 (`lith-notification`) - 通知提示组件
+  - Tabs 组件 (`lith-tabs`, `lith-tab`, `lith-tab-panel`) - 标签页组件 🆕
+  - Breadcrumb 组件 (`lith-breadcrumb` 和 `lith-breadcrumb-item`) - 面包屑导航 🆕
+  - Table 组件 (`lith-table`) - 表格组件 🆕
+  - Tree 组件 (`lith-tree` 和 `lith-tree-item`) - 树形组件 🆕
+  - Accordion 组件 (`lith-accordion` 和 `lith-accordion-item`) - 折叠面板 🆕
 
 ### 分阶段实现计划（2025年7月31日更新版 - 基于 shadcn/ui 50+ 组件对标）
 
@@ -140,14 +149,14 @@ lithless/
 - [x] Popover - 弹出框组件（其他浮层组件的基础）✅
 - [x] Portal - 传送门组件（处理 z-index 和定位）✅ (2025-07-30 完成)
 
-#### ✅ 第四阶段 - 交互反馈组件【部分完成】
+#### ✅ 第四阶段 - 交互反馈组件【已完成】
 - [x] Modal/Dialog - 模态框组件 ✅ (2025-07-30 完成)
 - [x] Tooltip - 工具提示组件 ✅ (2025-07-30 完成)
 - [x] Toast/Notification - 通知提示组件 ✅
-- [ ] **Progress** - 进度条组件 (对标 shadcn/ui Progress)
-- [ ] **Alert** - 警告提示组件 (对标 shadcn/ui Alert)
-- [ ] **Alert Dialog** - 警告对话框 (基于 Modal 扩展)
-- [ ] **Skeleton** - 骨架屏组件 (对标 shadcn/ui Skeleton)
+- [x] **Progress** - 进度条组件 (对标 shadcn/ui Progress) ✅
+- [x] **Alert** - 警告提示组件 (对标 shadcn/ui Alert) ✅
+- [x] **Alert Dialog** - 警告对话框 (基于 Modal 扩展) ✅
+- [x] **Skeleton** - 骨架屏组件 (对标 shadcn/ui Skeleton) ✅
 
 #### ✅ 第五阶段 - 菜单导航组件【已完成】
 - [x] ContextMenu - 右键菜单组件（基于 Popover）✅
@@ -156,18 +165,19 @@ lithless/
 - [x] MenuBar - 菜单栏组件 ✅
 - [x] Menu/MenuItem - 基础菜单组件（已重构）✅
 
-#### 📋 第六阶段 - 导航辅助组件【shadcn/ui 对标优先级】
-- [ ] **Tabs** - 标签页组件 (对标 shadcn/ui Tabs，高优先级)
-- [ ] **Breadcrumb** - 面包屑导航 (对标 shadcn/ui Breadcrumb)
+#### ✅ 第六阶段 - 导航辅助组件【部分完成】
+- [x] **Tabs** - 标签页组件 (对标 shadcn/ui Tabs，高优先级) ✅
+- [x] **Breadcrumb** - 面包屑导航 (对标 shadcn/ui Breadcrumb) ✅
 - [ ] **Pagination** - 分页组件 (对标 shadcn/ui Pagination)
 - [ ] **Command** - 命令面板组件 (对标 shadcn/ui Command)
 - [ ] **Sidebar** - 侧边栏组件 (对标 shadcn/ui Sidebar)
 
-#### 📋 第七阶段 - 数据展示组件【重点对标 shadcn/ui】
-- [ ] **Table** - 表格组件 (对标 shadcn/ui Table/Data Table，基于 VirtualScroll2DCore)
+#### ✅ 第七阶段 - 数据展示组件【部分完成】
+- [x] **Table** - 表格组件 (对标 shadcn/ui Table/Data Table，基于 VirtualScroll2DCore) ✅
 - [ ] **Card** - 卡片组件 (对标 shadcn/ui Card，高优先级)
-- [ ] **Accordion** - 折叠面板 (对标 shadcn/ui Accordion，高优先级)
-- [ ] **Collapsible** - 可折叠组件 (对标 shadcn/ui Collapsible)
+- [x] **Accordion** - 折叠面板 (对标 shadcn/ui Accordion，高优先级) ✅
+- [x] **Tree** - 树形组件 (对标自定义实现) ✅
+- [x] **Collapsible** - 可折叠组件 (对标 shadcn/ui Collapsible) ✅
 - [ ] **Separator** - 分割线 (对标 shadcn/ui Separator)
 - [ ] **ScrollArea** - 滚动区域 (对标 shadcn/ui Scroll-area)
 - [ ] **Resizable** - 可调整大小面板 (对标 shadcn/ui Resizable)
@@ -175,15 +185,15 @@ lithless/
 - [ ] **Badge** - 徽标组件 (对标 shadcn/ui Badge)
 - [ ] **AspectRatio** - 宽高比容器 (对标 shadcn/ui Aspect Ratio)
 
-#### 📋 第八阶段 - 高级输入组件【shadcn/ui 完整对标】
+#### ✅ 第八阶段 - 高级输入组件【部分完成】
 - [ ] **Input** - 输入框组件 (对标 shadcn/ui Input，基础组件)
 - [ ] **Textarea** - 文本域组件 (对标 shadcn/ui Textarea)
 - [ ] **Label** - 标签组件 (对标 shadcn/ui Label)
-- [ ] **Slider** - 滑块组件 (对标 shadcn/ui Slider)
+- [x] **Slider** - 滑块组件 (对标 shadcn/ui Slider) ✅
 - [ ] **Toggle** - 切换按钮 (对标 shadcn/ui Toggle)
 - [ ] **ToggleGroup** - 切换按钮组 (对标 shadcn/ui Toggle Group)
 - [ ] **Calendar** - 日历组件 (对标 shadcn/ui Calendar)
-- [ ] **DatePicker** - 日期选择器 (对标 shadcn/ui Date Picker)
+- [x] **DatePicker** - 日期选择器 (对标 shadcn/ui Date Picker) ✅
 - [ ] **InputOTP** - OTP 输入组件 (对标 shadcn/ui Input OTP)
 - [ ] **Form** - 表单组件 (对标 shadcn/ui React Hook Form)
 
@@ -204,74 +214,78 @@ lithless/
 2. **Radix UI 对标** - 保证底层无头组件的专业级实现
 
 #### 📊 shadcn/ui 对标统计 (截至 2025-07-31)
-- **已完成**: 24 个组件 ✅
+- **已完成**: 33 个组件 ✅ (新增 Collapsible)
 - **shadcn/ui 总数**: 50+ 个组件  
-- **完成率**: 约 48%
-- **缺少核心组件**: 26+ 个
+- **完成率**: 约 66%
+- **缺少核心组件**: 17+ 个
 
 #### 📊 Radix UI Primitives 对标统计 (截至 2025-07-31)
-- **已完成**: 11 个组件 ✅
+- **已完成**: 18 个组件 ✅ (新增 Collapsible)
 - **Radix UI 总数**: 25 个核心组件
-- **完成率**: 44%
-- **缺少核心组件**: 14 个
+- **完成率**: 72%
+- **缺少核心组件**: 7 个
 
-#### ✅ 已对标完成的 Radix UI Primitives (11个)
-1. **@radix-ui/react-checkbox** ✅ (`lith-checkbox`)
-2. **@radix-ui/react-context-menu** ✅ (`lith-context-menu`)
-3. **@radix-ui/react-dialog** ✅ (`lith-modal`)
-4. **@radix-ui/react-dropdown-menu** ✅ (`lith-dropdown-menu`)
-5. **@radix-ui/react-menubar** ✅ (`lith-menu-bar`)
-6. **@radix-ui/react-navigation-menu** ✅ (`lith-navigation-menu`)
-7. **@radix-ui/react-popover** ✅ (`lith-popover`)
-8. **@radix-ui/react-radio-group** ✅ (`lith-radio-group`)
-9. **@radix-ui/react-select** ✅ (`lith-select`)
-10. **@radix-ui/react-switch** ✅ (`lith-switch`)
-11. **@radix-ui/react-toast** ✅ (`lith-toast`)
-12. **@radix-ui/react-tooltip** ✅ (`lith-tooltip`)
+#### ✅ 已对标完成的 Radix UI Primitives (18个)
+1. **@radix-ui/react-accordion** ✅ (`lith-accordion`)
+2. **@radix-ui/react-alert-dialog** ✅ (`lith-alert-dialog`)
+3. **@radix-ui/react-checkbox** ✅ (`lith-checkbox`)
+4. **@radix-ui/react-context-menu** ✅ (`lith-context-menu`)
+5. **@radix-ui/react-dialog** ✅ (`lith-modal`)
+6. **@radix-ui/react-dropdown-menu** ✅ (`lith-dropdown-menu`)
+7. **@radix-ui/react-menubar** ✅ (`lith-menu-bar`)
+8. **@radix-ui/react-navigation-menu** ✅ (`lith-navigation-menu`)
+9. **@radix-ui/react-popover** ✅ (`lith-popover`)
+10. **@radix-ui/react-progress** ✅ (`lith-progress`)
+11. **@radix-ui/react-radio-group** ✅ (`lith-radio-group`)
+12. **@radix-ui/react-select** ✅ (`lith-select`)
+13. **@radix-ui/react-slider** ✅ (`lith-slider`)
+14. **@radix-ui/react-switch** ✅ (`lith-switch`)
+15. **@radix-ui/react-tabs** ✅ (`lith-tabs`)
+16. **@radix-ui/react-toast** ✅ (`lith-toast`)
+17. **@radix-ui/react-tooltip** ✅ (`lith-tooltip`)
+18. **@radix-ui/react-collapsible** ✅ (`lith-collapsible`)
 
-#### ⚡ 缺失的高优先级 Radix UI Primitives (14个)
-1. **@radix-ui/react-accordion** - 折叠面板 (shadcn/ui Accordion)
-2. **@radix-ui/react-alert-dialog** - 警告对话框 (shadcn/ui Alert Dialog)
-3. **@radix-ui/react-avatar** - 头像组件 (shadcn/ui Avatar)
-4. **@radix-ui/react-collapsible** - 可折叠组件 (shadcn/ui Collapsible)
-5. **@radix-ui/react-form** - 表单组件 (shadcn/ui Form)
-6. **@radix-ui/react-hover-card** - 悬停卡片 (shadcn/ui Hover Card)
-7. **@radix-ui/react-label** - 标签组件 (shadcn/ui Label) 🔥
-8. **@radix-ui/react-progress** - 进度条 (shadcn/ui Progress) 🔥
-9. **@radix-ui/react-scroll-area** - 滚动区域 (shadcn/ui Scroll Area)
-10. **@radix-ui/react-separator** - 分割线 (shadcn/ui Separator) 🔥
-11. **@radix-ui/react-slider** - 滑块组件 (shadcn/ui Slider)
-12. **@radix-ui/react-tabs** - 标签页 (shadcn/ui Tabs) 🔥
-13. **@radix-ui/react-toggle** - 切换按钮 (shadcn/ui Toggle)
+#### ⚡ 缺失的高优先级 Radix UI Primitives (7个)
+1. **@radix-ui/react-avatar** - 头像组件 (shadcn/ui Avatar)
+2. **@radix-ui/react-form** - 表单组件 (shadcn/ui Form)
+3. **@radix-ui/react-hover-card** - 悬停卡片 (shadcn/ui Hover Card)
+4. **@radix-ui/react-label** - 标签组件 (shadcn/ui Label) 🔥
+5. **@radix-ui/react-scroll-area** - 滚动区域 (shadcn/ui Scroll Area)
+6. **@radix-ui/react-separator** - 分割线 (shadcn/ui Separator) 🔥
+7. **@radix-ui/react-toggle** - 切换按钮 (shadcn/ui Toggle)
 
 #### ✅ shadcn/ui 独有组件 (我们已实现，但 Radix UI 无对应组件)
-1. **Button** ✅ (`lith-button`) - 基础按钮
-2. **Combobox** ✅ (`lith-combobox`) - 组合框
+1. **Alert** ✅ (`lith-alert`) - 警告提示组件
+2. **Breadcrumb** ✅ (`lith-breadcrumb`) - 面包屑导航
+3. **Button** ✅ (`lith-button`) - 基础按钮
+4. **Combobox** ✅ (`lith-combobox`) - 组合框
+5. **DatePicker** ✅ (`lith-date-picker`) - 日期选择器
+6. **Skeleton** ✅ (`lith-skeleton`) - 骨架屏组件
+7. **Table** ✅ (`lith-table`) - 表格组件
+8. **Tree** ✅ (`lith-tree`) - 树形组件
 
 #### ⏳ 综合优先级最高的缺失组件 (基于 Radix UI + shadcn/ui 双重对标)
 
 **🔥 超高优先级 (立即实现)**
 1. **Label** - @radix-ui/react-label (表单可访问性基础) 
-2. **Tabs** - @radix-ui/react-tabs (导航核心组件)
-3. **Progress** - @radix-ui/react-progress (反馈基础组件)  
-4. **Separator** - @radix-ui/react-separator (布局基础组件)
+2. **Separator** - @radix-ui/react-separator (布局基础组件)
 
 **⚡ 高优先级 (2025年8月)**
-5. **Input** - shadcn/ui 独有 (表单基础，无 Radix UI 对应)
-6. **Textarea** - shadcn/ui 独有 (表单基础，无 Radix UI 对应)
-7. **Accordion** - @radix-ui/react-accordion (数据展示核心)
-8. **Alert** - shadcn/ui 独有 (反馈基础，无 Radix UI 对应)
+3. **Input** - shadcn/ui 独有 (表单基础，无 Radix UI 对应)
+4. **Textarea** - shadcn/ui 独有 (表单基础，无 Radix UI 对应)
+5. **Card** - shadcn/ui 独有 (布局基础，无 Radix UI 对应)
 
 **📋 中等优先级 (2025年9月)**
-9. **Card** - shadcn/ui 独有 (布局基础，无 Radix UI 对应)
-10. **Avatar** - @radix-ui/react-avatar (用户界面常用)
-11. **Toggle** - @radix-ui/react-toggle (表单扩展)
-12. **Slider** - @radix-ui/react-slider (输入控件)
+6. **Avatar** - @radix-ui/react-avatar (用户界面常用)
+7. **Toggle** - @radix-ui/react-toggle (表单扩展)
+8. **Collapsible** - @radix-ui/react-collapsible (数据展示扩展)
+9. **HoverCard** - @radix-ui/react-hover-card (悬停交互)
+10. **ScrollArea** - @radix-ui/react-scroll-area (滚动控件)
 
 #### 🎯 下一阶段重点目标 (2025年8月)
-- **目标**: 完成 Radix UI 核心缺失组件 (Label, Tabs, Progress, Separator)
-- **Radix UI 完成率提升**: 44% → 60%
-- **shadcn/ui 完成率提升**: 48% → 56%
+- **目标**: 完成 Radix UI 核心缺失组件 (Label, Separator) 及基础表单组件 (Input, Textarea, Card)
+- **Radix UI 完成率提升**: 68% → 76%
+- **shadcn/ui 完成率提升**: 64% → 70%
 - **优势**: 优先实现有 Radix UI 标准的组件，确保专业级无头实现
 
 ### 技术债务和重构计划
@@ -320,6 +334,13 @@ lithless/
   ```typescript
   import { expect, within, userEvent, fn } from '@storybook/test';
   ```
+- **⚠️ 导入注意事项**:
+  - **只导入实际使用的工具函数**，避免 ESLint 报 `no-unused-vars` 错误
+  - 如果没有交互测试，可以注释掉整行导入：`// import { expect, within, userEvent, fn } from '@storybook/test';`
+  - 常见使用场景：
+    - `expect` + `userEvent` - 基础交互测试
+    - `within` - 需要查询特定区域内的元素
+    - `fn` - 需要 mock 函数监听事件
 - **play 函数结构**:
   ```typescript
   play: async ({ canvasElement, args }) => {

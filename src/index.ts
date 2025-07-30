@@ -71,8 +71,18 @@ export { LithPortal } from './components/feedback/lith-portal.js';
 
 export { LithModal } from './components/feedback/lith-modal.js';
 
+export { LithAlertDialog } from './components/feedback/lith-alert-dialog.js';
+
 export { LithTooltip } from './components/feedback/lith-tooltip.js';
 export type { TooltipPlacement } from './components/feedback/lith-tooltip.js';
+
+export { LithAlert } from './components/feedback/lith-alert.js';
+export type { AlertVariant } from './components/feedback/lith-alert.js';
+
+export { LithProgress } from './components/feedback/lith-progress.js';
+
+export { LithSkeleton } from './components/feedback/lith-skeleton.js';
+export type { SkeletonVariant } from './components/feedback/lith-skeleton.js';
 
 export { LithToastContainer } from './components/feedback/lith-toast-container.js';
 export { LithToast } from './components/feedback/lith-toast.js';
@@ -118,3 +128,10 @@ export type {
 export { LithAccordion } from './components/data-display/lith-accordion.js';
 export { LithAccordionItem } from './components/data-display/lith-accordion-item.js';
 export type { AccordionChangeDetail } from './components/data-display/lith-accordion.js';
+
+export { LithAvatar } from './components/data-display/lith-avatar.js';
+
+export { LithCollapsible } from './components/data-display/lith-collapsible.js';
+export type { CollapsibleChangeDetail } from './components/data-display/lith-collapsible.js';
+
+export { LithBadge } from './components/data-display/lith-badge.js';

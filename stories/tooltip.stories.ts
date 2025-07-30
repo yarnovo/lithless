@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/web-components';
 import { html } from 'lit';
-// import { expect, within, userEvent } from '@storybook/test';
+// import { expect, within, userEvent, fn } from '@storybook/test';
 import '../src/components/feedback/lith-tooltip';
 import type { LithTooltip } from '../src/components/feedback/lith-tooltip';
 

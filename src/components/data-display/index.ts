@@ -20,3 +20,10 @@ export type { ListItem, ListSelectEvent } from './lith-list.js';
 export { LithAccordion } from './lith-accordion.js';
 export { LithAccordionItem } from './lith-accordion-item.js';
 export type { AccordionChangeDetail } from './lith-accordion.js';
+
+export { LithAvatar } from './lith-avatar.js';
+
+export { LithCollapsible } from './lith-collapsible.js';
+export type { CollapsibleChangeDetail } from './lith-collapsible.js';
+
+export { LithBadge } from './lith-badge.js';

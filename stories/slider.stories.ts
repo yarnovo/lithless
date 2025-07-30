@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/web-components';
 import { html } from 'lit';
 import { ifDefined } from 'lit/directives/if-defined.js';
-import { expect, fn, userEvent } from '@storybook/test';
+import { expect, userEvent, fn } from '@storybook/test';
 import '../src/components/form/lith-slider';
 import type { LithSlider } from '../src/components/form/lith-slider';
 
