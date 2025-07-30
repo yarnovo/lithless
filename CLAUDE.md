@@ -108,7 +108,9 @@ lithless/
   - Checkbox 组件 (`lith-checkbox`)
   - RadioGroup 组件 (`lith-radio-group` 和 `lith-radio`)
   - Switch 组件 (`lith-switch`)
+  - Select 组件 (`lith-select` 和 `lith-option`)
 - **第一阶段 (MVP) 已完成！** 🎉
+- **第二阶段进行中** - 已完成 Select 组件 ✅
 
 ### 分阶段实现计划
 1. **第一阶段 (MVP)** - 基础组件 ✅
@@ -118,7 +120,7 @@ lithless/
    - [x] Switch - 开关组件
 
 2. **第二阶段** - 选择器组件
-   - [ ] Select - 下拉选择器
+   - [x] Select - 下拉选择器
    - [ ] Combobox - 组合框（可搜索下拉）
 
 3. **第三阶段** - 导航组件

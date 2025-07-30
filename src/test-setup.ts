@@ -22,6 +22,14 @@ if (!customElements.get('lith-button')) {
   import('./components/button/lith-button');
 }
 
+if (!customElements.get('lith-select')) {
+  import('./components/form/lith-select');
+}
+
+if (!customElements.get('lith-option')) {
+  import('./components/form/lith-option');
+}
+
 // 添加全局测试帮助方法
 declare global {
   interface Window {

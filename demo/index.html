@@ -47,7 +47,10 @@
         lith-button:not(:defined),
         lith-checkbox:not(:defined),
         lith-radio-group:not(:defined),
-        lith-radio:not(:defined) {
+        lith-radio:not(:defined),
+        lith-switch:not(:defined),
+        lith-select:not(:defined),
+        lith-option:not(:defined) {
             visibility: hidden;
             display: inline-block;
             /* 保持布局空间，防止页面跳动 */
@@ -59,7 +62,10 @@
         lith-button:defined,
         lith-checkbox:defined,
         lith-radio-group:defined,
-        lith-radio:defined {
+        lith-radio:defined,
+        lith-switch:defined,
+        lith-select:defined,
+        lith-option:defined {
             animation: fadeIn 0.2s ease-in;
         }
         
@@ -187,6 +193,70 @@
             --lith-switch-height: 28px;
             --lith-switch-thumb-size: 24px;
         }
+        
+        /* Select styles */
+        lith-select {
+            --lith-select-trigger-padding: 8px 12px;
+            --lith-select-trigger-gap: 8px;
+            --lith-select-listbox-offset: 4px;
+            --lith-select-listbox-max-height: 200px;
+            width: 200px;
+        }
+        
+        lith-select::part(trigger) {
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background: white;
+            min-height: 36px;
+            transition: border-color 200ms;
+        }
+        
+        lith-select::part(trigger):hover {
+            border-color: #007bff;
+        }
+        
+        lith-select:focus-within::part(trigger) {
+            border-color: #007bff;
+            box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+        }
+        
+        lith-select[disabled]::part(trigger) {
+            background: #f5f5f5;
+            opacity: 0.6;
+        }
+        
+        lith-select::part(value).placeholder {
+            color: #999;
+        }
+        
+        lith-select::part(icon) {
+            color: #666;
+        }
+        
+        lith-select::part(listbox) {
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+        
+        lith-option:hover:not([disabled]) {
+            background-color: #f8f9fa;
+        }
+        
+        lith-option[selected] {
+            background-color: #e3f2fd;
+            color: #1976d2;
+        }
+        
+        lith-option.highlighted {
+            background-color: #e3f2fd;
+        }
+        
+        lith-option[disabled] {
+            color: #999;
+            opacity: 0.6;
+        }
     </style>
 </head>
 <body>
@@ -268,6 +338,52 @@
         </div>
         
         <div class="demo-section">
+            <h2>下拉选择器组件</h2>
+            <div class="demo-item">
+                <lith-select placeholder="请选择选项">
+                    <lith-option value="option1">选项 1</lith-option>
+                    <lith-option value="option2">选项 2</lith-option>
+                    <lith-option value="option3">选项 3</lith-option>
+                </lith-select>
+            </div>
+            <div class="demo-item">
+                <lith-select value="selected" placeholder="已选中状态">
+                    <lith-option value="selected">已选中选项</lith-option>
+                    <lith-option value="other">其他选项</lith-option>
+                </lith-select>
+            </div>
+            <div class="demo-item">
+                <lith-select disabled placeholder="禁用状态">
+                    <lith-option value="option1">选项 1</lith-option>
+                    <lith-option value="option2">选项 2</lith-option>
+                </lith-select>
+            </div>
+            <div class="demo-item">
+                <lith-select placeholder="包含禁用选项">
+                    <lith-option value="option1">选项 1</lith-option>
+                    <lith-option value="option2" disabled>选项 2 (禁用)</lith-option>
+                    <lith-option value="option3">选项 3</lith-option>
+                </lith-select>
+            </div>
+            <div class="demo-item">
+                <lith-select placeholder="带图标选项">
+                    <lith-option value="design">
+                        <span slot="icon">🎨</span>
+                        设计
+                    </lith-option>
+                    <lith-option value="development">
+                        <span slot="icon">💻</span>
+                        开发
+                    </lith-option>
+                    <lith-option value="marketing">
+                        <span slot="icon">📈</span>
+                        市场
+                    </lith-option>
+                </lith-select>
+            </div>
+        </div>
+        
+        <div class="demo-section">
             <h2>表单示例</h2>
             <form id="demo-form">
                 <div class="demo-item">
@@ -291,6 +407,21 @@
                 </div>
                 <div class="demo-item">
                     <lith-switch name="autoSave" value="yes" checked>自动保存</lith-switch>
+                </div>
+                <div class="demo-item">
+                    <lith-select name="country" required placeholder="选择国家/地区">
+                        <lith-option value="cn">中国</lith-option>
+                        <lith-option value="us">美国</lith-option>
+                        <lith-option value="uk">英国</lith-option>
+                        <lith-option value="jp">日本</lith-option>
+                    </lith-select>
+                </div>
+                <div class="demo-item">
+                    <lith-select name="language" value="zh" placeholder="选择语言">
+                        <lith-option value="zh">中文</lith-option>
+                        <lith-option value="en">English</lith-option>
+                        <lith-option value="ja">日本語</lith-option>
+                    </lith-select>
                 </div>
                 <div class="demo-item" style="margin-top: 20px;">
                     <button type="submit">提交</button>
@@ -322,12 +453,16 @@
             console.log('Button clicked:', e.detail);
         });
         
-        // Checkbox events
+        // Form control events
         document.addEventListener('lith-change', (e) => {
             if (e.target.tagName === 'LITH-CHECKBOX') {
                 console.log('Checkbox changed:', e.target, e.detail);
             } else if (e.target.tagName === 'LITH-RADIO-GROUP') {
                 console.log('Radio group changed:', e.target, e.detail);
+            } else if (e.target.tagName === 'LITH-SWITCH') {
+                console.log('Switch changed:', e.target, e.detail);
+            } else if (e.target.tagName === 'LITH-SELECT') {
+                console.log('Select changed:', e.target, e.detail);
             }
         });
         
